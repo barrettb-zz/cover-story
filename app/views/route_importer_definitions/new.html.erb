@@ -1,0 +1,12 @@
+<h1>New Route Importer Definition</h1>
+
+<%= form_for :route_importer_definition, url: route_importer_definitions_path(@route_importer_definition) do |f| %>
+  <p>
+    <%= f.label :other_rake_routes_output_file_location %><br>
+    <%= f.text_field :other_rake_routes_output_file_location %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
