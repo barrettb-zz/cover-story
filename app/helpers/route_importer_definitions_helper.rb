@@ -1,16 +1,12 @@
+##
+# to generate rake file for import file from hr_suite:
+#  1. from console for hr_suite,
+#  2. rr = %x[rake routes]
+#  3. file_destination = whatever_you_like
+#  4. File.open(file_destination, 'w+') { |file| file.write(rr) }
+#  5. put file in cover-story's default_shared_file_location (see below)
+
 module RouteImporterDefinitionsHelper
-
-#TODO store this in the app!
-  def default_shared_file_location
-    "tmp/routes_import/slop_routes.txt"
-  end
-
-# TODO this will not be part of the test flow.  This will be a file.
-# likely generated from hr_suite, but stored somewhere shared.
-#  def generate_sloppy_routes_output_file(file_destination=default_shared_file_location)
-#    rr = %x[rake routes]
-#    File.open(file_destination, 'w+') { |file| file.write(rr) }
-#  end
 
   def generate_clean_routes(location=default_shared_file_location)
     # get file contents
@@ -19,23 +15,39 @@ module RouteImporterDefinitionsHelper
     records = sloppy_routes_output.lines.collect do |l|
       parse_out_route_info_and_add_to_database(l, import_timestamp_id)
     end
-    return "#{records.count} records for #{import_timestamp_id}"
+    processed = records.count
+    imported = RouteImporter.where(import_timestamp_id: import_timestamp_id).count
+    skipped = RouteImporter.where(name: "SKIPPED").count
+    return "Files for import_timestamp_id #{import_timestamp_id}: #{processed} processed, #{imported} created, #{skipped} skipped."
   end
 
-  #TODO what do we call all the information parsed out??
-  #     maybe have someone talk through the rake routes output for our app?
+private
+
+  def default_shared_file_location
+    "tmp/routes_import/slop_routes.txt"
+  end
+
   def parse_out_route_info_and_add_to_database(line, import_timestamp_id)
-    return unless route_information_exists_in(line)
+    #TODO what do we call all the information parsed out??
+    #     maybe have someone talk through the rake routes output for our app?
     r = RouteImporter.new
-    r.update_attributes(
-      :import_timestamp_id  => import_timestamp_id,
-      :name                 => extract_name_from(line),
-      :http_verb            => extract_http_verb_from(line),
-      :path                 => extract_path_from(line),
-      :action_path          => extract_action_path_from(line),
-      :action               => extract_action_from(line),
-      :original_route_info  => keep_original_path_info(line)
-    )
+    if route_information_exists_in(line)
+      r.update_attributes(
+        :import_timestamp_id  => import_timestamp_id,
+        :name                 => extract_name_from(line),
+        :http_verb            => extract_http_verb_from(line),
+        :path                 => extract_path_from(line),
+        :action_path          => extract_action_path_from(line),
+        :action               => extract_action_from(line),
+        :original_route_info  => keep_original_path_info(line)
+      )
+    else
+      r.update_attributes(
+        :import_timestamp_id  => import_timestamp_id,
+        :name                 => "SKIPPED",
+        :original_route_info  => keep_original_path_info(line)
+      )
+    end
     r.save
   end
 
