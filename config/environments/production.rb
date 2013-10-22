@@ -20,6 +20,8 @@ CoverStory::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.eager_load = true
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
@@ -52,7 +54,7 @@ CoverStory::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Enable threaded mode
-  # config.threadsafe!
+  #config.threadsafe!
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
