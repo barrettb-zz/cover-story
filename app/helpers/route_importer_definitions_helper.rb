@@ -1,7 +1,8 @@
 module RouteImporterDefinitionsHelper
 
-  def default_shared_file_location # assuming file in main cover-story directory for now
-    "slop_routes.txt"
+#TODO store this in the app!
+  def default_shared_file_location
+    "tmp/routes_import/slop_routes.txt"
   end
 
 # TODO this will not be part of the test flow.  This will be a file.
