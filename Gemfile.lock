@@ -1,3 +1,8 @@
+PATH
+  remote: ~/Documents/Repos/git/request-log-analyzer
+  specs:
+    request-log-analyzer (1.12.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -28,12 +33,16 @@ GEM
     arel (4.0.0)
     atomic (1.1.14)
     builder (3.1.4)
+    byebug (2.3.1)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    coderay (1.0.9)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -41,6 +50,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
     erubis (2.7.0)
     execjs (2.0.2)
     hike (1.2.3)
@@ -51,6 +62,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    method_source (0.8.2)
     mime-types (1.25)
     mini_portile (0.5.1)
     minitest (4.7.5)
@@ -74,6 +86,13 @@ GEM
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     polyglot (0.3.3)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-byebug (1.2.0)
+      byebug (~> 2.2)
+      pry (~> 0.9.12)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -96,6 +115,9 @@ GEM
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
+    slop (3.4.6)
+    splunk-sdk-ruby (1.0.2)
+      rake (~> 10)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -129,7 +151,11 @@ DEPENDENCIES
   minitest-colorize
   minitest-rails
   minitest-rails-capybara
+  pry
+  pry-byebug
   rails (= 4.0.0)
+  request-log-analyzer!
   sass-rails (>= 4.0.0)
+  splunk-sdk-ruby
   sqlite3
   uglifier (>= 1.0.3)

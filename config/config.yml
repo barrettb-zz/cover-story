@@ -1,0 +1,25 @@
+defaults: &defaults
+  :app_name: "Cover Story"
+  :tmp_dir: "/tmp"
+  :analyzer_filetype_path: "lib/log_parser/request_log_analyzer/rails_pa.rb"
+
+development:
+  <<: *defaults
+  :splunk_config:
+    :host: localhost
+    :port: 8089
+    :user: admin
+    :pass: w3testpeople
+    :app: rails_splunk
+  
+test:
+  <<: *defaults
+  :splunk_config:
+    :host: localhost
+    :port: 8089
+    :user: admin
+    :pass: w3testpeople
+    :app: rails_splunk
+  
+production:
+  <<: *defaults

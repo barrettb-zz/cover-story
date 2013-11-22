@@ -1,2 +1,2 @@
-module RouteImporterHelper
+module RouteImportersHelper
 end

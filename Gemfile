@@ -6,7 +6,11 @@ gem 'rails', '4.0.0'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+gem 'splunk-sdk-ruby'
+gem "request-log-analyzer",
+  :path =>'~/Documents/Repos/git/request-log-analyzer'
+#  :git     => "git@github.com:mmorast/request-log-analyzer.git",
+#  :branch  => "activerecord4_hash_fix"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,6 +31,12 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'minitest-colorize'
 end
+
+group :development do
+  gem 'pry'
+  gem 'pry-byebug'
+end
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
