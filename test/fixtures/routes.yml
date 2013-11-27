@@ -1,0 +1,22 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  import_timestamp_id: 1
+  route_type: MyString
+  name: MyString
+  http_verb: MyString
+  path: MyString
+  action_path: MyString
+  action: MyString
+  original_route_info: MyText
+
+two:
+  import_timestamp_id: 1
+  route_type: MyString
+  name: MyString
+  http_verb: MyString
+  path: MyString
+  action_path: MyString
+  action: MyString
+  original_route_info: MyText
