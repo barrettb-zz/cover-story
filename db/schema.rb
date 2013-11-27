@@ -77,15 +77,9 @@ ActiveRecord::Schema.define(version: 20131201041230) do
     t.integer "last_lineno"
   end
 
-  create_table "route_importer_definitions", force: true do |t|
-    t.string   "name"
-    t.string   "path_to_import_file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "route_importers", force: true do |t|
+  create_table "routes", force: true do |t|
     t.integer  "import_timestamp_id"
+    t.string   "route_type"
     t.string   "name"
     t.string   "http_verb"
     t.string   "path"
