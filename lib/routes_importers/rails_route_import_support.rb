@@ -16,6 +16,7 @@ module RailsRouteImportSupport
     else
       r.update_attributes(
         :import_timestamp_id  => import_timestamp_id,
+        :route_type           => route_type,
         :name                 => "SKIPPED",
         :original_route_info  => original_path_info(line)
       )
