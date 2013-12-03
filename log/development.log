@@ -1,0 +1,88 @@
+DEPRECATION WARNING: You didn't set config.secret_key_base. Read the upgrade documentation to learn more about this new config option. (called from service at /Users/bbaxter/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/httpserver.rb:138)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-12-03 13:38:11 -0600
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 519ms (Views: 518.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/dashboard.css?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/routes_import.css?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/requests.css?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/route.css?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:34 -0600
+
+
+Started GET "/assets/dashboard.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:35 -0600
+
+
+Started GET "/assets/requests.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:35 -0600
+
+
+Started GET "/assets/route.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:35 -0600
+
+
+Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:35 -0600
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 13:38:35 -0600
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 9ms (Views: 8.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/dashboard.css?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/route.css?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/requests.css?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/dashboard.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/routes_import.css?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/route.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/requests.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
