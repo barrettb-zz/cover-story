@@ -86,3 +86,129 @@ Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:
 
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 13:40:59 -0600
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 8ms (Views: 7.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/dashboard.css?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/requests.css?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/route.css?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/dashboard.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/routes_import.css?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/requests.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/route.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 13:50:30 -0600
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 6ms (Views: 5.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/requests.css?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/route.css?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/dashboard.css?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/routes_import.css?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/dashboard.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/route.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/requests.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 13:51:51 -0600
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 8ms (Views: 7.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/dashboard.css?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/routes_import.css?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/route.css?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/requests.css?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/dashboard.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/requests.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/route.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/routes_import.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-03 14:03:36 -0600
