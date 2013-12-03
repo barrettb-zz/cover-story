@@ -1,4 +1,6 @@
 class LogImportController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   def fetch_parse
     f_p_status = false
     if params[:type]

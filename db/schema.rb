@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131022002508) do
+ActiveRecord::Schema.define(version: 20131201041230) do
 
   create_table "completed_lines", force: true do |t|
     t.integer "request_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20131022002508) do
     t.integer "request_id"
     t.integer "source_id"
     t.integer "lineno"
-    t.text    "params"
+    t.string  "params"
   end
 
   add_index "parameters_lines", ["request_id"], name: "index_parameters_lines_on_request_id"
@@ -111,7 +111,11 @@ ActiveRecord::Schema.define(version: 20131022002508) do
     t.string   "filename"
     t.datetime "mtime"
     t.integer  "filesize"
+    t.string   "file_type"
+    t.string   "env"
   end
+
+  add_index "sources", ["env"], name: "index_sources_on_env"
 
   create_table "started_lines", force: true do |t|
     t.integer  "request_id"

@@ -23,3 +23,9 @@ test:
   
 production:
   <<: *defaults
+  :splunk_config:
+    :host: localhost
+    :port: 8089
+    :user: admin
+    :pass: w3testpeople
+    :app: rails_splunk

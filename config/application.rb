@@ -20,11 +20,13 @@ module CoverStory
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.eager_load_paths += ["#{Rails.root}/lib}"]
-     config.autoload_paths << "#{Rails.root}/lib"
-     config.autoload_paths << "#{Rails.root}/lib/log_fetchers"
-          config.autoload_paths << "#{Rails.root}/lib/log_parser"
-     config.watchable_dirs['lib'] = [:rb]
+    config.eager_load_paths += ["#{Rails.root}/lib/**/*.rb}"]
+    #config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths << "#{Rails.root}/app/services"
+    config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/lib/log_fetchers"
+    config.autoload_paths << "#{Rails.root}/lib/log_parser"
+    config.watchable_dirs['lib'] = [:rb]
 
 
     # Only load the plugins named here, in the order given (default is alphabetical).
