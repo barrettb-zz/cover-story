@@ -1,2 +1,0 @@
-class RouteImporterController < ApplicationController
-end

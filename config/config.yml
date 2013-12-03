@@ -12,7 +12,9 @@ development:
     :user: admin
     :pass: w3testpeople
     :app: rails_splunk
-  
+  :routes_config:
+    :import_file_paths: "tmp/routes_import/hrsuite_routes.txt, tmp/routes_import/other_routes.txt"
+
 test:
   <<: *defaults
   :log_drop_dir: "tmp/routes_import/"
@@ -22,7 +24,9 @@ test:
     :user: admin
     :pass: w3testpeople
     :app: rails_splunk
-  
+  :routes_config:
+    :import_file_paths: "tmp/routes_import/hrsuite_routes.txt, tmp/routes_import/other_routes.txt"
+
 production:
   <<: *defaults
   :splunk_config:

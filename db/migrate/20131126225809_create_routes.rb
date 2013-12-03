@@ -1,7 +1,8 @@
-class CreateRouteImporters < ActiveRecord::Migration
+class CreateRoutes < ActiveRecord::Migration
   def change
-    create_table :route_importers do |t|
+    create_table :routes do |t|
       t.integer :import_timestamp_id
+      t.string :route_type
       t.string :name
       t.string :http_verb
       t.string :path
