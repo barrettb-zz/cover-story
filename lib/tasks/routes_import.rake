@@ -10,16 +10,16 @@ require "#{Rails.root}/app/models/route"
 include RailsRouteImportSupport
 
 namespace :import_routes do
+  desc "Import routes from provided import_path or default path"
   task :rails => :environment do
     start_count = Route.count
-    r = RoutesImportController.new
-    if ENV["PATH"]
-      r.import(type: "rails", import_path: ENV["IMPORT_PATH"])
+    if ENV["IMPORT_PATHS"]
+      RoutesImport.import(type: "rails", import_paths: ENV["IMPORT_PATHS"])
     else
-      r.import(type: "rails")
+      RoutesImport.import(type: "rails")
     end
     end_count = Route.count
     added_count = end_count - start_count
-    puts "Imported #{added_count} routes. Timestamp: #{Route.last.import_timestamp_id}"
+    puts "Imported #{added_count} routes; import_timestamp: #{RoutesImport.last.import_timestamp}"
   end
 end

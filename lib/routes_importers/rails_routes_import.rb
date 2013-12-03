@@ -3,7 +3,6 @@ class RailsRoutesImport
   include RailsRouteImportSupport
 
   def setup(routes_options)
-    @routes_type = "rails"
     @routes_options = routes_options
     @routes_config = APP_CONFIG[:routes_config]
     return true
@@ -11,17 +10,15 @@ class RailsRoutesImport
 
   def fetch()
     # get file contents, prioritizing specified file, then defaule file location
-    file_location = ( @routes_options[:import_path] || @routes_config[:import_file_path] )
     @tmp_routes_file = nil
-    @tmp_routes_file = File.read(file_location)
+    @tmp_routes_file = File.read(@routes_options[:import_path])
     return true
   end
 
   def parse()
-    #setup options for request_log_analyzer
-    import_timestamp_id = Time.now.to_i
+    routes_import = @routes_options[:routes_import]
     records = @tmp_routes_file.lines.collect do |l|
-       parse_out_route_info_and_add_to_database(l, import_timestamp_id, @routes_type)
+       parse_out_route_info_and_add_to_database(l, routes_import)
     end
     return true
   end

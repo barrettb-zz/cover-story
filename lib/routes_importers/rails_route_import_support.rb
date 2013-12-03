@@ -1,27 +1,23 @@
 module RailsRouteImportSupport
 
-  def parse_out_route_info_and_add_to_database(line, import_timestamp_id, route_type)
-    r = Route.new
+  def parse_out_route_info_and_add_to_database(line, routes_import)
+    route = routes_import.routes.create(
+      :routes_import_id     => routes_import.id,
+      :original_route_info  => original_path_info(line)
+      )
     if route_information_exists_in(line)
-      r.update_attributes(
-        :import_timestamp_id  => import_timestamp_id,
-        :route_type           => route_type,
+      route.update_attributes(
         :name                 => name_from(line),
         :http_verb            => http_verb_from(line),
         :path                 => path_from(line),
         :action_path          => action_path_from(line),
-        :action               => action_from(line),
-        :original_route_info  => original_path_info(line)
+        :action               => action_from(line)
       )
     else
-      r.update_attributes(
-        :import_timestamp_id  => import_timestamp_id,
-        :route_type           => route_type,
-        :name                 => "SKIPPED",
-        :original_route_info  => original_path_info(line)
+      route.update_attributes(
+        :name                 => "SKIPPED"
       )
     end
-    r.save
   end
 
 private
