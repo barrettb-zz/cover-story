@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203071111) do
+ActiveRecord::Schema.define(version: 20131203203728) do
 
   create_table "completed_lines", force: true do |t|
     t.integer "request_id"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20131203071111) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "routes_import_id"
+    t.string   "formatted_path"
   end
 
   add_index "routes", ["routes_import_id"], name: "index_routes_on_routes_import_id"
@@ -131,6 +132,7 @@ ActiveRecord::Schema.define(version: 20131203071111) do
     t.string   "path"
     t.string   "ip"
     t.datetime "timestamp"
+    t.string   "formatted_path"
   end
 
   add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id"
