@@ -5,6 +5,7 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  :log_drop_dir: "tmp/routes_import/"
   :splunk_config:
     :host: localhost
     :port: 8089
@@ -14,6 +15,7 @@ development:
   
 test:
   <<: *defaults
+  :log_drop_dir: "tmp/routes_import/"
   :splunk_config:
     :host: localhost
     :port: 8089
