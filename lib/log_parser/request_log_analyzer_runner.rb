@@ -41,4 +41,21 @@ class RequestLogAnalyzerRunner
       return false
     end
   end
+
+  def self.gather_parse_config(options)
+    rla_config = {}
+    rla_config[:silent] = true
+    rla_config[:no_progress] = true
+    rla_config[:aggregator] = []
+    rla_config[:format] = File.join(Rails.root, APP_CONFIG[:analyzer_filetype_path])
+    rla_config[:source_files] = options[:tmp_log_file]
+    db_conn_hash = ActiveRecord::Base.connection_config
+    case db_conn_hash[:adapter]
+    when "sqlite3"
+      rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:database]}"
+    else
+      rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:host]}/#{db_conn_hash[:database]}"
+    end
+    return rla_config
+  end
 end

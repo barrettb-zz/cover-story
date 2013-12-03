@@ -1,3 +1,5 @@
+require 'source'
+
 class SplunkLog
   def setup(splunk_options)
     @so = splunk_options
@@ -28,7 +30,7 @@ class SplunkLog
 
   def parse()
     #setup options for request_log_analyzer
-    parse_config = gather_parse_config
+    parse_config = RequestLogAnalyzerRunner.gather_parse_config({tmp_log_file: @tmp_log_file})
 
     RequestLogAnalyzerRunner.parse(parse_config)
   end
@@ -74,21 +76,7 @@ class SplunkLog
 
   private
 
-  def gather_parse_config
-    rla_config = {}
-    rla_config[:silent] = true
-    rla_config[:no_progress] = true
-    rla_config[:format] = File.join(Rails.root, APP_CONFIG[:analyzer_filetype_path])
-    rla_config[:source_files] = @tmp_log_file
-    db_conn_hash = ActiveRecord::Base.connection_config
-    case db_conn_hash[:adapter]
-    when "sqlite3"
-      rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:database]}"
-    else
-      rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:host]}/#{db_conn_hash[:database]}"
-    end
-    return rla_config
-  end
+
 
 
 end

@@ -59,5 +59,5 @@ CoverStory::Application.routes.draw do
   resources :route_importer_definitions
   resources :route_importers
   resources :requests
-  get 'log_import', to: 'log_import#fetch_parse'
+  post 'log_import', to: 'log_import#fetch_parse'
 end
