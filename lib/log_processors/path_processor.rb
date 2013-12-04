@@ -12,6 +12,7 @@ module PathProcessor
       formatted_path.gsub!(/\d+/, ":id")
       # delete all query info, from "?" forward
       formatted_path.gsub!(/\?.*/, ":id")
+      formatted_path.strip!
       line.update_attributes(formatted_path: formatted_path)
     end
   end
@@ -21,6 +22,7 @@ module PathProcessor
       unless (line.name == "root" || line.name == "SKIPPED")
         formatted_path = line.path
         formatted_path.gsub!(/\/:(.*?)_id/, "/:id")
+        formatted_path.strip!
         line.update_attributes(formatted_path: formatted_path)
       end
     end
