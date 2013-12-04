@@ -1,45 +1,25 @@
 <h1>Route Coverage Dashboard</h1>
 
-<p>Routes Covered by Tests - %</p>
-<div style="height:360px;width:720px;border:1px solid #ccc;font:15px/25px Georgia, Garamond, Serif;overflow-y:scroll;">
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
+<p>
+  Routes Not Covered by Tests - <%= @untested_routes[:percentage]%>
+</p>
+
+<div style="height:360px;width:720px;border:1px solid #ccc;font:15px/25px Georgia, Garamond, Serif;overflow:scroll;">
+  <%= @untested_routes[:routes].each do |route| puts route+'<br>' end%>
 </div>
 
-<p>Routes Not Used by Customers - %</p>
-<div style="height:360px;width:720px;border:1px solid #ccc;font:15px/25px Georgia, Garamond, Serif;overflow-x:auto;">
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
-As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box.<br>
+<p>
+  Active Routes Not Covered by Tests - <%= @untested_prod_routes[:percentage]%>
+</p>
+
+<div style="height:360px;width:720px;border:1px solid #ccc;font:15px/25px Georgia, Garamond, Serif;overflow:scroll;">
+  <%= @untested_prod_routes[:routes].each do |route| puts route+'<br>' end%>
+</div>
+
+<p>
+  Routes Not Used by Customers - <%= @unused_routes[:percentage]%>
+</p>
+
+<div style="height:360px;width:720px;border:1px solid #ccc;font:15px/25px Georgia, Garamond, Serif;overflow:scroll;">
+  <%= @unused_routes[:routes].each do |route| puts route+'<br>' end%>
 </div>

@@ -1,5 +1,7 @@
-PATH
-  remote: /Users/mmorast/Documents/Repos/git/request-log-analyzer
+GIT
+  remote: git@github.com:mmorast/request-log-analyzer.git
+  revision: 950587d32e43b23ceff42aea1aa55547ecfe3546
+  branch: master
   specs:
     request-log-analyzer (1.12.9)
 

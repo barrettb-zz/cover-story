@@ -1,9 +1,6 @@
 
 class RailsRouteDiff
 
-  def initialize
-  end
-
   def analyze(options)
     case options[:diff_type]
 
@@ -57,6 +54,6 @@ class RailsRouteDiff
   def set_diff_results(start_set, end_set)
     diff_set = start_set - end_set
     percentage = (diff_set.size.to_f/start_set.size)*100 #Convert to float ensures precentage is not rounded.
-    result_hash = {'percentage': percentage, 'routes': diff_set.to_a}
+    result_hash = {percentage: percentage, routes: diff_set.to_a}
   end
 end

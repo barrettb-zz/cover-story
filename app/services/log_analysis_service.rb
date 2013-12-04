@@ -6,14 +6,11 @@ class LogAnalysisService < SimpleDelegator
 
     @analysis_options = analysis_params
 
-
     case analysis_type
     when "rails_route_diff"
-      super(RailsRouteDiff.new(@analysis_options))
+      super(RailsRouteDiff.new)
     else
       super(nil)
     end
-
-    self.setup(@analysis_options)
   end
 end
