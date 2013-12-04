@@ -1,13 +1,13 @@
 class LogAnalysisService < SimpleDelegator
   attr_reader :analysis_options
 
-  def initialize(log_params)
-    log_type = log_params[:type]
+  def initialize(analysis_params)
+    analysis_type = analysis_params[:type]
 
-    @analysis_options = log_params
+    @analysis_options = analysis_params
 
 
-    case log_type
+    case analysis_type
     when "rails_route_diff"
       super(RailsRouteDiff.new(@analysis_options))
     else
