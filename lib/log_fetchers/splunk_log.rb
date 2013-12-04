@@ -1,4 +1,3 @@
-require 'source'
 
 class SplunkLog
   def setup(splunk_options)
