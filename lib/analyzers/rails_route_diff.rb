@@ -18,7 +18,7 @@ class RailsRouteDiff
  def untested_routes
     tested_route_set = test_routes
     rake_route_set = rake_routes
-    set_diff_results(rake_route_set, prod_route_set)
+    set_diff_results(rake_route_set, tested_route_set)
   end
 
   def unused_routes
