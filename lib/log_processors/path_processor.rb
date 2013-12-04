@@ -19,7 +19,7 @@ module PathProcessor
 
   def format_latest_routes_paths
     routes_with_latest_import_timestamp.each do |line|
-      unless (line.name == "root" || line.name == "SKIPPED")
+      unless (line.name == "root" || line.name == "SKIPPED" || line.path == nil)
         formatted_path = line.path
         formatted_path.gsub!(/\/:(.*?)_id/, "/:id")
         formatted_path.strip!
