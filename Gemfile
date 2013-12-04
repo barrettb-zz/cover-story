@@ -7,7 +7,7 @@ gem 'rails', '4.0.0'
 
 gem 'sqlite3'
 gem 'splunk-sdk-ruby'
-gem "request-log-analyzer"
+gem "request-log-analyzer", :path => "/Users/mmorast/Documents/Repos/git/request-log-analyzer" 
 gem 'daemons-rails'
 gem 'listen', '~> 2.0'
 
