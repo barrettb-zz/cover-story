@@ -1,1 +1,5 @@
 /db/development.Sqlite3
+/log/*.log
+.DS_Store
+db/schema.rb
+tmp/
