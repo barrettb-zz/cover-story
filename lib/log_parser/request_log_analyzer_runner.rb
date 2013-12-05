@@ -52,10 +52,11 @@ class RequestLogAnalyzerRunner
     db_conn_hash = ActiveRecord::Base.connection_config
     case db_conn_hash[:adapter]
     when "sqlite3"
-      rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:database]}"
+      rla_config[:database] = File.expand_path(db_conn_hash[:database])
     else
       rla_config[:database] = "#{db_conn_hash[:adapter]}://#{db_conn_hash[:host]}/#{db_conn_hash[:database]}"
     end
+
     return rla_config
   end
 end
