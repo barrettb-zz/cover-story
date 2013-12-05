@@ -36,7 +36,7 @@ class RailsRouteDiff
 
   def rake_routes
     routes_import_ids = RoutesImport.where(import_timestamp: RoutesImport.last.import_timestamp).select(:id).map{|import_route| import_route.id}
-    routes = Set.new(Route.where(routes_import_id: routes_import_ids)) { |e| "#{e.http_verb} -- #{e.formatted_path}" }
+    routes = Set.new(Route.where(routes_import_id: routes_import_ids)) { |e| "#{e.method} -- #{e.formatted_path}" }
   end
 
   def test_routes

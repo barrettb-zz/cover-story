@@ -8,7 +8,7 @@ module RailsRouteImportSupport
     if route_information_exists_in(line)
       route.update_attributes(
         :name                 => name_from(line),
-        :http_verb            => http_verb_from(line),
+        :method               => method_from(line),
         :path                 => path_from(line),
         :action_path          => action_path_from(line),
         :action               => action_from(line)
@@ -27,22 +27,22 @@ private
     return true if segments.find { |e| /#/ =~ e }
   end
 
-  def http_verb_from(line)
-    http_verb = case
+  def method_from(line)
+    method = case
     when line.match("GET"); "GET"
     when line.match("PUT"); "PUT"
     when line.match("POST"); "POST"
     when line.match("DELETE"); "DELETE"
     end
-    http_verb
+    method
   end
 
   def name_from(line)
     segments = split_line_into_segments(line)
-    http_verb = http_verb_from(line)
+    method = method_from(line)
     #get name, if the first segment is a verb or path, set name to nil
     first_segment = segments[0]
-    if first_segment == http_verb
+    if first_segment == method
       name = nil
     elsif first_segment.include?("/")
       name = nil

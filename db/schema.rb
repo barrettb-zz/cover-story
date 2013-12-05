@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203203728) do
+ActiveRecord::Schema.define(version: 20131205203649) do
 
   create_table "completed_lines", force: true do |t|
     t.integer "request_id"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20131203203728) do
 
   create_table "routes", force: true do |t|
     t.string   "name"
-    t.string   "http_verb"
+    t.string   "method"
     t.string   "path"
     t.string   "action_path"
     t.string   "action"
