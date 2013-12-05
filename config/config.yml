@@ -13,7 +13,7 @@ development:
     :pass: w3testpeople
     :app: rails_splunk
   :routes_config:
-    :import_file_paths: "tmp/routes_import/hrsuite_routes.txt, tmp/routes_import/other_routes.txt"
+    :import_file_paths: "tmp/routes_import/hr_suite_routes.txt, tmp/routes_import/applicant_portal_routes.txt, tmp/routes_import/employee_portal_routes.txt"
 
 test:
   <<: *defaults
@@ -25,7 +25,7 @@ test:
     :pass: w3testpeople
     :app: rails_splunk
   :routes_config:
-    :import_file_paths: "tmp/routes_import/hrsuite_routes.txt, tmp/routes_import/other_routes.txt"
+    :import_file_paths: "tmp/routes_import/hr_suite_routes.txt, tmp/routes_import/applicant_portal_routes.txt, tmp/routes_import/employee_portal_routes.txt"
 
 production:
   <<: *defaults

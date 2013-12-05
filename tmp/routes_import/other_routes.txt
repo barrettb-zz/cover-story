@@ -1,2 +1,0 @@
-                                                                  root        /                                                                                                                       users#home
-                              hamsters_do_weird_things POST   /hamsters/do/:weird/things/sometimes(.:format)                                                        performance/eligibility_criteria#add_user
