@@ -5,7 +5,7 @@
 </p>
 
 <div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <%= @untested_routes[:routes].each do |route| %>
+  <% @untested_routes[:routes].each do |route| %>
     <li><%= route %></li>
   <% end %>
 </div>
@@ -15,7 +15,7 @@
 </p>
 
 <div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <%= @untested_prod_routes[:routes].each do |route| %>
+  <% @untested_prod_routes[:routes].each do |route| %>
     <li><%= route %></li>
   <% end %>
 </div>
@@ -25,7 +25,7 @@
 </p>
 
 <div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <%= @unused_routes[:routes].each do |route| %>
+  <% @unused_routes[:routes].each do |route| %>
     <li><%= route %></li>
   <% end %>
 </div>
