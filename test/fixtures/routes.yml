@@ -5,7 +5,7 @@ one:
   import_timestamp_id: 1
   route_type: MyString
   name: MyString
-  http_verb: MyString
+  method: MyString
   path: MyString
   action_path: MyString
   action: MyString
@@ -15,7 +15,7 @@ two:
   import_timestamp_id: 1
   route_type: MyString
   name: MyString
-  http_verb: MyString
+  method: MyString
   path: MyString
   action_path: MyString
   action: MyString
