@@ -20,6 +20,7 @@ class RailsRoutesImport
     records = @tmp_routes_file.lines.collect do |l|
        parse_out_route_info_and_add_to_database(l, routes_import)
     end
+    PathProcessor.format_latest_routes_paths
     return true
   end
 end

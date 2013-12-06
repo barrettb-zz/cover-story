@@ -1,9 +1,14 @@
 
 class LocalRailsLog
+
   attr_reader :file_list
 
   def setup(options)
-    @file_list = options[:file_list]
+    expanded_filenames = [ ]
+    options[:file_list].each do |f|
+      expanded_filenames << File.expand_path(f)
+    end
+    @file_list = expanded_filenames
   end
 
   def fetch
@@ -18,7 +23,7 @@ class LocalRailsLog
         RequestLogAnalyzerRunner.parse(parse_config)
         
         LogSource.parse_filename(file)
-
+        PathProcessor.format_latest_log_paths
       end
     end
 

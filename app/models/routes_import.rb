@@ -2,11 +2,11 @@ class RoutesImport < ActiveRecord::Base
 
   # Parameters used:
   #
-  #   - import_paths: paths processed with RoutesImport.import
+  #   - file_list: paths processed with RoutesImport.import
   #   - import_path: individual path sent to servies, 
-  #       based on import_paths, stored as file_path
+  #       based on file_list, stored as file_path
   #   - type: type of application, defaults to/only "rails"
-  #   - routes_import: main import object, one per import_paths
+  #   - routes_import: main import object, one per file in file_list
   #   - import_timestamp: timestamp specific to run, 
   #       shared across routes_imports
 
@@ -16,8 +16,8 @@ class RoutesImport < ActiveRecord::Base
     timestamp_id = Time.now.to_i
     params[:type] ||= "rails"
     routes_config = APP_CONFIG[:routes_config]
-    params[:import_paths] ||= routes_config[:import_file_paths]
-    paths = params[:import_paths].gsub(" ", "").split(",")  
+    params[:file_list] ||= routes_config[:import_file_paths]
+    paths = params[:file_list].gsub(" ", "").split(",")
 
     paths.each do |import_path|
       params[:import_path] = import_path
