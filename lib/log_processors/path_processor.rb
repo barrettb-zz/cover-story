@@ -9,7 +9,7 @@ class PathProcessor
         # replace id with ":id"
         formatted_path.gsub!(/\d+/, ":id")
         # delete all query info, from "?" forward
-        formatted_path.gsub!(/\?.*/, ":id")
+        formatted_path.gsub!(/\?.*/, "")
         formatted_path.strip!
         line.update_attributes(formatted_path: formatted_path)
       end
