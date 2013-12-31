@@ -11,7 +11,7 @@ namespace :import do
     else
       config = APP_CONFIG[:log_import_config]
       files = config[:import_file_paths]
-    end 
+    end
 
     file_list = [ ]
     files.split(',').each { |file| file_list << file.strip }
@@ -47,9 +47,37 @@ namespace :import do
     puts "Processed #{added_count} routes; import_timestamp: #{RoutesImport.last.import_timestamp}"
   end
 
-  desc "all import options"
+  desc "import all file types (routes and logs)"
   task :all => :environment do
     Rake::Task['import:routes'].invoke
     Rake::Task['import:logs'].invoke
+  end
+
+  namespace :clear do
+    desc "clear log files"
+    task :logs => :environment do
+      LogSource.delete_all
+      StartedLine.delete_all
+      CompletedLine.delete_all
+      FailureLine.delete_all
+      ParametersLine.delete_all
+      ProcessingLine.delete_all
+      RenderedLine.delete_all
+      Request.delete_all
+      RoutingErrorsLine.delete_all
+      Warning.delete_all
+    end
+
+    desc "clear routes files"
+    task :routes => :environment do
+      Route.delete_all
+      RoutesImport.delete_all
+    end
+
+    desc "clear all import types (routes and logs)"
+    task :all => :environment do
+      Rake::Task['import:clear:routes'].invoke
+      Rake::Task['import:clear:logs'].invoke
+    end
   end
 end
