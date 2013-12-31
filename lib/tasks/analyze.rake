@@ -10,8 +10,8 @@ namespace :analyze do
     routes = las.analyze(diff_type: "untested_routes")
     sorted_routes = routes[:routes].sort{|a,b| a && b ? a <=> b : a ? -1 : 1 } # putting nil last
     sorted_routes.each_with_index { |x, i| puts "#{i + 1} #{x}" }
-    puts "UNTESTED NO METHOD count: #{routes[:routes].count}"
-    puts "UNTESTED NO METHOD percent: #{routes[:percentage]}"
+    puts "UNTESTED count: #{routes[:routes].count}"
+    puts "UNTESTED percent: #{routes[:percentage]}"
   end
 
   desc "print tested routes"
@@ -21,7 +21,7 @@ namespace :analyze do
     sorted_routes = routes[:routes].sort{|a,b| a && b ? a <=> b : a ? -1 : 1 } # putting nil last
     sorted_routes.each_with_index { |x, i| puts "#{i + 1} #{x}" }
     puts "tested count: #{routes[:routes].count}"
-    puts "TESTED NO METHOD percent: #{routes[:percentage]}"
+    puts "TESTED percent: #{routes[:percentage]}"
   end
 
 end
