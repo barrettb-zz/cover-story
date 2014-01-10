@@ -5,7 +5,7 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  :log_drop_dir: "tmp/routes_import/"
+  :log_drop_dir: "tmp/log_import/"
   :splunk_config:
     :host: localhost
     :port: 8089
@@ -14,8 +14,10 @@ development:
     :app: rails_splunk
   :routes_config:
     :import_file_paths: "tmp/routes_import/hr_suite_routes.txt, tmp/routes_import/applicant_portal_routes.txt, tmp/routes_import/employee_portal_routes.txt"
+    :routes_path_prefix: "/hr"
+    :routes_path_prefix_files: "tmp/routes_import/hr_suite_routes.txt"
   :log_import_config:
-    :import_file_paths: "tmp/routes_import/feature_regressions_test.log"
+    :import_file_paths: "tmp/log_import/feature_regressions_test.log"
 
 test:
   <<: *defaults

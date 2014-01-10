@@ -7,9 +7,8 @@ class RoutesImport < ActiveRecord::Base
   #       based on file_list, stored as file_path
   #   - type: type of application, defaults to/only "rails"
   #   - routes_import: main import object, one per file in file_list
-  #   - import_timestamp: timestamp specific to run, 
-  #       shared across routes_imports
 
+  belongs_to :routes_import_parent
   has_many :routes
 
   def self.import(params={})
@@ -19,11 +18,13 @@ class RoutesImport < ActiveRecord::Base
     params[:file_list] ||= routes_config[:import_file_paths]
     paths = params[:file_list].gsub(" ", "").split(",")
 
+    import_parent = RoutesImportParent.create
+
     paths.each do |import_path|
       params[:import_path] = import_path
 
       @routes_import = RoutesImport.create(
-        import_timestamp: timestamp_id,
+        routes_import_parent_id: import_parent.id,
         route_type: params[:type],
         file_path: params[:import_path]
       )

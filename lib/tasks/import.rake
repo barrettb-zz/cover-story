@@ -44,7 +44,7 @@ namespace :import do
     end
     end_count = Route.count
     added_count = end_count - start_count
-    puts "Processed #{added_count} routes; import_timestamp: #{RoutesImport.last.import_timestamp}"
+    puts "Processed #{added_count} routes; Routes Import Parent record: #{RoutesImportParent.last.id}"
   end
 
   desc "import all file types (routes and logs)"
@@ -72,6 +72,7 @@ namespace :import do
     task :routes => :environment do
       Route.delete_all
       RoutesImport.delete_all
+      RoutesImportParent.delete_all
     end
 
     desc "clear all import types (routes and logs)"

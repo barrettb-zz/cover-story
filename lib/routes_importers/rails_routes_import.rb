@@ -11,7 +11,7 @@ class RailsRoutesImport
   def fetch()
     # get file contents, prioritizing specified file, then defaule file location
     @tmp_routes_file = nil
-    @tmp_routes_file = File.read(@routes_options[:import_path])
+    @tmp_routes_file = File.read(routes_import_file)
     return true
   end
 

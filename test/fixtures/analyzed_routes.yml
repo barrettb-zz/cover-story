@@ -1,0 +1,14 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  analysis: 
+  route: 
+  formatted_route: MyString
+  count: 1
+
+two:
+  analysis: 
+  route: 
+  formatted_route: MyString
+  count: 1

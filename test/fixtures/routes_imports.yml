@@ -2,11 +2,11 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  import_timestamp: MyString
+  routes_import_parent_id: MyString
   route_type: MyString
   file_path: MyString
 
 two:
-  import_timestamp: MyString
+  routes_import_parent_id: MyString
   route_type: MyString
   file_path: MyString
