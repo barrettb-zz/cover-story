@@ -10,6 +10,7 @@ gem 'splunk-sdk-ruby'
 gem "request-log-analyzer", :git => "git@github.com:mmorast/request-log-analyzer.git", :branch => "master"
 gem 'daemons-rails'
 gem 'listen', '~> 2.0'
+gem "d3-rails"
 
 # Gems used only for assets and not required
 # in production environments by default.
