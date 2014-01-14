@@ -1,6 +1,7 @@
 #TODO I plan to deprecate this in favor of RouteDiff / RouteDiffGenerator,
 # but am still working on it
 
+=begin
 class RailsRouteDiff
 
   def analyze(options)
@@ -153,3 +154,4 @@ private
     result_hash = {percentage: percentage, routes: diff_set.to_a}
   end
 end
+=end

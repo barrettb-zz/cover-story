@@ -2,15 +2,15 @@ class LogAnalysisService < SimpleDelegator
   attr_reader :analysis_options
 
   def initialize(analysis_params)
-    analysis_type = analysis_params[:type]
-
-    @analysis_options = analysis_params
+    analysis_params.assert_valid_keys :analysis_type, :diff_type
+    analysis_type = analysis_params[:analysis_type]
+    diff_type = analysis_params[:diff_type]
 
     case analysis_type
-    when "rails_route_diff"
-      super(RailsRouteDiff.new)
+    when "generate_route_diff"
+      super(RouteDiffGenerator.generate_records(diff_type: diff_type))
     else
-      super(nil)
+      raise "unsupported analysis_type: #{analysis_type}"
     end
   end
 end

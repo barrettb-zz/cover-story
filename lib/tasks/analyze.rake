@@ -4,9 +4,13 @@ require "#{Rails.root}/app/controllers/application_controller"
 
 namespace :analyze do
 
-  desc "print tested routes"
+  desc "tested routes, generates data in analyses"
   task :tested => :environment do
-    RouteDiffGenerator.generate_records(diff_type: "tested_routes")
+    LogAnalysisService.new(
+      analysis_type: "generate_route_diff",
+      diff_type: "tested_routes"
+    )
+
 # TODO output route files as well once route related schema is cleaned up
     analysis = Analysis.last
     log = LogSource.where(env: "test").last
