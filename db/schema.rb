@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140110221236) do
+ActiveRecord::Schema.define(version: 20140115002230) do
 
   create_table "analyses", force: true do |t|
     t.integer  "source_id"
@@ -20,20 +20,28 @@ ActiveRecord::Schema.define(version: 20140110221236) do
     t.datetime "updated_at"
     t.integer  "routes_import_parent_id"
     t.string   "analysis_type"
+    t.integer  "model_percentage_covered"
   end
 
   add_index "analyses", ["source_id"], name: "index_analyses_on_source_id"
 
-  create_table "analyzed_routes", force: true do |t|
+  create_table "analyzed_route_models", force: true do |t|
     t.integer  "analysis_id"
-    t.integer  "route_id"
-    t.string   "formatted_path"
+    t.string   "model"
     t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "analyzed_routes", ["route_id"], name: "index_analyzed_routes_on_route_id"
+  add_index "analyzed_route_models", ["analysis_id"], name: "index_analyzed_route_models_on_analysis_id"
+
+  create_table "analyzed_routes", force: true do |t|
+    t.integer  "analysis_id"
+    t.string   "formatted_path"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "completed_lines", force: true do |t|
     t.integer "request_id"
@@ -110,6 +118,7 @@ ActiveRecord::Schema.define(version: 20140110221236) do
     t.datetime "updated_at"
     t.integer  "routes_import_id"
     t.string   "formatted_path"
+    t.string   "model"
   end
 
   add_index "routes", ["routes_import_id"], name: "index_routes_on_routes_import_id"
@@ -160,6 +169,7 @@ ActiveRecord::Schema.define(version: 20140110221236) do
     t.string   "ip"
     t.datetime "timestamp"
     t.string   "formatted_path"
+    t.string   "model"
   end
 
   add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id"

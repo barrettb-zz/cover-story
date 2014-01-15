@@ -6,12 +6,14 @@ module RailsRouteImportSupport
       :original_route_info  => original_path_info(line)
       )
     if route_information_exists_in(line)
+      path = path_from_line(line)
       route.update_attributes(
         :name                 => name_from_line(line),
         :method               => method_from_line(line),
-        :path                 => path_from_line(line),
+        :path                 => path,
         :action_path          => action_path_from_line(line),
-        :action               => action_from_line(line)
+        :action               => action_from_line(line),
+        :model                => PathProcessor.extract_model_from_path(path)
       )
     else
       route.update_attributes(

@@ -24,6 +24,7 @@ class LocalRailsLog
         
         LogSource.parse_filename(file)
         PathProcessor.format_latest_log_paths
+        PathProcessor.extract_models_for_latest_log_paths
       end
     end
 

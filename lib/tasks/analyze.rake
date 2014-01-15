@@ -30,10 +30,16 @@ namespace :analyze do
       AnalyzedRoutes.delete_all
     end
 
+    desc "clear analyzed route models"
+    task :analyzed_route_models => :environment do
+      AnalyzedRouteModel.delete_all
+    end
+
     desc "clear all import types (routes and logs)"
     task :all => :environment do
       Rake::Task['analyze:clear:analyses'].invoke
       Rake::Task['analyze:clear:analyzed_routes'].invoke
+      Rake::Task['analyze:clear:analyzed_route_models'].invoke
     end
   end
 end
