@@ -9,7 +9,7 @@ class RouteDiff
       diff_models = send("#{options[:diff_type]}_models")
       diff_models_percentage = send("#{options[:diff_type]}_model_percentage")
       results = {
-        routes_import_parent_id: @routes_import_parent_id,
+        routes_import_id: @routes_import_id,
         test_log_source_id: @test_log_source_id,
         percentage: diff_percenatge,
         route_formatted_paths: @route_formatted_paths,
@@ -56,24 +56,20 @@ class RouteDiff
       raise "Not suppported: #{option}"
     end
 
-    def routes_import_parent_id
-      @routes_import_parent_id = RoutesImportParent.last.id
-    end
-
     def test_log_source_id
       @test_log_source_id = LogSource.where(env: 'test').last.id
     end
 
-    def routes_import_ids
-      RoutesImport.where(routes_import_parent_id: routes_import_parent_id).select(:id).map{|import_route| import_route.id}
+    def routes_import_id
+      @routes_import_id = RoutesImport.last.id
     end
 
     def routes_import_routes
-      Route.where(routes_import_id: routes_import_ids).map &:formatted_path
+      RoutesImport.last.routes.map &:formatted_path
     end
 
     def routes_import_models
-      Route.where(routes_import_id: routes_import_ids).map &:model
+      RoutesImport.last.routes.map &:model
     end
 
     def unique_percentage(compare_array, total_array)

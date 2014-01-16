@@ -2,7 +2,9 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  routes_imports: 
+  routes_import: 
+  file_path: MyString
 
 two:
-  routes_imports: 
+  routes_import: 
+  file_path: MyString

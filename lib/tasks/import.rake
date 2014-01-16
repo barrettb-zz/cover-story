@@ -38,13 +38,14 @@ namespace :import do
   task :routes => :environment do
     start_count = Route.count
     if ENV["ROUTES_FILE_LIST"]
-      RoutesImport.import(type: "rails", file_list: ENV["ROUTES_FILE_LIST"])
+      ris = RoutesImportService.new(type: "rails", file_list: ENV["ROUTES_FILE_LIST"])
     else
-      RoutesImport.import(type: "rails")
+      ris = RoutesImportService.new(type: "rails")
     end
+    ris.import
     end_count = Route.count
     added_count = end_count - start_count
-    puts "Processed #{added_count} routes; Routes Import Parent record: #{RoutesImportParent.last.id}"
+    puts "Processed #{added_count} routes; Routes Import: #{RoutesImport.last.id}"
   end
 
   desc "import all file types (routes and logs)"
@@ -72,7 +73,7 @@ namespace :import do
     task :routes => :environment do
       Route.delete_all
       RoutesImport.delete_all
-      RoutesImportParent.delete_all
+      RoutesImportSource.delete_all
     end
 
     desc "clear all import types (routes and logs)"

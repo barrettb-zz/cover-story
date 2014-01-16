@@ -1,4 +1,5 @@
 <%# borrowed from: http://bl.ocks.org/benjchristensen/2579619 %>
+<%# commenting out all the rightaxis code until needed %>
 
 <html>
 	<head>
@@ -7,14 +8,25 @@
 		  Routes covered in test (%)
 		</p>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+
 		<style>
 			/* tell the SVG path to be a thin blue line without any area fill */
 			path {
 				stroke-width: 1;
 				fill: none;
 			}
+
+			circle {
+			  fill: #fff;
+			  stroke: #000;
+			}
+
+			text {
+			  font: 10px sans-serif;
+			}
 			
-			.data1 {
+			.testedPercentages {
 				stroke: steelblue;
 			}
 
@@ -67,25 +79,30 @@
 
 
 	<script>
-		/* implementation heavily influenced by http://bl.ocks.org/1166403 */
-		/* some arguments AGAINST the use of dual-scaled axes line graphs can be found at http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf */
-		
+
+		// pull in our data
+// what on earth is wrong with the dates coming in and as used below!!??!?!
+	    var testedDates = "<%= @tested_dates.to_json %>";
+		var testedPercentages = JSON.parse( "<%= @tested_percentages.to_json %>" );
+		var highestPercentage = d3.max(testedPercentages)
+
 		// define dimensions of graph
-		var m = [80, 80, 80, 80]; // margins
+		var m = [80, 80, 80, 80]; // margins [0top, 1right, 2bottom, 3left]
 		var w = 900 - m[1] - m[3];	// width
 		var h = 400 - m[0] - m[2]; // height
-		
-		// create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-		var data1 = JSON.parse( "<%= @tested_percentages.to_json %>" );
-		var data2 = JSON.parse( "<%= @tested_percentages.to_json %>" );
 
+		// define the labels
+		var xAxisLabel = "<%= @tested_x_axis_label %>";
+		var yAxisLabel = "<%= @tested_y_axis_label %>";
+
+// Why does the date range not work?
+// https://github.com/mbostock/d3/wiki/Time-Scales
+// var x = d3.time.scale().domain(testedDates).range([0, w]);
 		// X scale will fit all values from data[] within pixels 0-w
-		var x = d3.scale.linear().domain([0, data1.length]).range([0, w]);
+		 var x = d3.scale.linear().domain([0, testedPercentages.length]).range([0, w]);
+
 		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
-		var y1 = d3.scale.linear().domain([0, d3.max(data1)+20]).range([h, 0]);
-		var y2 = d3.scale.linear().domain([0, d3.max(data1)+20]).range([h, 0]);
-			// automatically determining max range can work something like this
-			// var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+		var y = d3.scale.linear().domain([0, highestPercentage+20]).range([h, 0]);
 
 		// create a line function that can convert data[] into x and y points
 		var line1 = d3.svg.line()
@@ -98,26 +115,28 @@
 			})
 			.y(function(d) { 
 				// verbose logging to show what's actually being done
-				console.log('Plotting Y1 value for data point: ' + d + ' to be at: ' + y1(d) + " using our y1Scale.");
+				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
 				// return the Y coordinate where we want to plot this datapoint
-				return y1(d); 
+				return y(d); 
 			})
-			
-		// create a line function that can convert data[] into x and y points
-		var line2 = d3.svg.line()
-			// assign the X function to plot our line as we wish
-			.x(function(d,i) { 
-				// verbose logging to show what's actually being done
-				console.log('Plotting X2 value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+
+
+// TODO? removing data2 / line2 for now			
+//		// create a line function that can convert data[] into x and y points
+//		var line2 = d3.svg.line()
+//			// assign the X function to plot our line as we wish
+//			.x(function(d,i) { 
+//				// verbose logging to show what's actually being done
+//				console.log('Plotting X2 value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
 				// return the X coordinate where we want to plot this datapoint
-				return x(i); 
-			})
-			.y(function(d) { 
-				// verbose logging to show what's actually being done
-				console.log('Plotting Y2 value for data point: ' + d + ' to be at: ' + y2(d) + " using our y2Scale.");
-				// return the Y coordinate where we want to plot this datapoint
-				return y2(d); 
-			})
+//				return x(i); 
+//			})
+//			.y(function(d) { 
+//				// verbose logging to show what's actually being done
+//				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+//				// return the Y coordinate where we want to plot this datapoint
+//				return y(d); 
+//			})
 
 
 			// Add an SVG element with the desired dimensions and margin.
@@ -129,38 +148,48 @@
 
 			// create yAxis
 		    var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+
 			// Add the x-axis.
 			graph.append("svg:g")
 			      .attr("class", "x axis")
 			      .attr("transform", "translate(0," + h + ")")
 			      .call(xAxis);
 
-
 			// create left yAxis
-			var yAxisLeft = d3.svg.axis().scale(y1).ticks(4).orient("left");
+			var yAxisLeft = d3.svg.axis().scale(y).ticks(highestPercentage/2).orient("left");
+
 			// Add the y-axis to the left
 			graph.append("svg:g")
 			      .attr("class", "y axis axisLeft")
 			      .attr("transform", "translate(-15,0)")
-			      .call(yAxisLeft);
+			  	  .call(yAxisLeft);
 
-	  		// create right yAxis
-	  		var yAxisRight = d3.svg.axis().scale(y2).ticks(6).orient("right");
-  			// Add the y-axis to the right
-  			graph.append("svg:g")
-  			      .attr("class", "y axis axisRight")
-  			      .attr("transform", "translate(" + (w+15) + ",0)")
-  			      .call(yAxisRight);
+			// Add an x-axis label.
+			graph.append("text")
+			    .attr("class", "x label")
+			    .attr("text-anchor", "end")
+			    .attr("x", w)
+			    .attr("y", h-6)
+			    .text(xAxisLabel);
+
+		    // Add an y-axis label.
+			graph.append("text")
+			    .attr("class", "y label")
+			    .attr("text-anchor", "end")
+			    .attr("y", 6)
+			    .attr("dy", ".75em")
+			    .attr("transform", "rotate(-90)")
+			    .text(yAxisLabel);
+
 			
 			// add lines
 			// do this AFTER the axes above so that the line is above the tick-lines
-  			graph.append("svg:path").attr("d", line1(data1)).attr("class", "data1");
-  			graph.append("svg:path").attr("d", line2(data2)).attr("class", "data2");
-			
+  			graph.append("svg:path").attr("d", line1(testedPercentages)).attr("class", "testedPercentages");
 
-	</script>
-
+// TODO? removing data2 / line2 for now	
+//  			graph.append("svg:path").attr("d", line2(data2)).attr("class", "data2");
 
 
+	  </script>
 	</body>
 </html>

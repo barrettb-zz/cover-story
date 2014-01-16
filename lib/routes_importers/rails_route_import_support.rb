@@ -2,8 +2,9 @@ module RailsRouteImportSupport
 
   def parse_out_route_info_and_add_to_database(line, routes_import)
     route = routes_import.routes.create(
-      :routes_import_id     => routes_import.id,
-      :original_route_info  => original_path_info(line)
+      :routes_import_id         => routes_import.id,
+      :routes_import_source_id  => routes_import_source.id,
+      :original_route_info      => original_path_info(line)
       )
     if route_information_exists_in(line)
       path = path_from_line(line)
@@ -64,6 +65,10 @@ private
 
   def routes_import_file
     @routes_options[:import_path]
+  end
+
+  def routes_import_source
+    @routes_options[:routes_import_source]
   end
 
   def path_from_line(line)

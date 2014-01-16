@@ -6,7 +6,7 @@ class RouteDiffGenerator
     when "tested_routes"
       analysis = Analysis.new
       analysis.update_attributes(
-        routes_import_parent_id: results[:routes_import_parent_id],
+        routes_import_id: results[:routes_import_id],
         source_id: results[:test_log_source_id],
         percentage_covered: results[:percentage],
         model_percentage_covered: results[:model_percentage],

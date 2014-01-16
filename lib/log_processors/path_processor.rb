@@ -24,7 +24,7 @@ class PathProcessor
     end
 
     def format_latest_routes_paths
-      routes_with_latest_parent.each do |line|
+      latest_routes_paths.each do |line|
         unless (line.name == "root" || line.name == "SKIPPED" || line.path == nil)
           formatted_path = line.path
           formatted_path.gsub!(/\/:(.*?)_id/, "/:id")
@@ -52,12 +52,9 @@ class PathProcessor
 
   private
 
-    def routes_with_latest_parent
-      raise "routes not imported" if RoutesImport.count == 0
-      routes_imports = RoutesImport.where(routes_import_parent_id: RoutesImportParent.last.id)
-      ids = routes_imports.select(:id).map{|import_route| import_route.id}
-      routes = Route.where(routes_import_id: ids)
-      routes
+    def latest_routes_paths
+      routes_import = RoutesImport.last
+      routes_import.routes
     end
   end
 end

@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140115002230) do
+ActiveRecord::Schema.define(version: 20140116012829) do
 
   create_table "analyses", force: true do |t|
     t.integer  "source_id"
     t.decimal  "percentage_covered"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "routes_import_parent_id"
     t.string   "analysis_type"
     t.integer  "model_percentage_covered"
+    t.integer  "routes_import_id"
   end
 
   add_index "analyses", ["source_id"], name: "index_analyses_on_source_id"
@@ -119,11 +119,13 @@ ActiveRecord::Schema.define(version: 20140115002230) do
     t.integer  "routes_import_id"
     t.string   "formatted_path"
     t.string   "model"
+    t.integer  "routes_import_source_id"
   end
 
   add_index "routes", ["routes_import_id"], name: "index_routes_on_routes_import_id"
 
-  create_table "routes_import_parents", force: true do |t|
+  create_table "routes_import_sources", force: true do |t|
+    t.string   "file_path"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -132,8 +134,6 @@ ActiveRecord::Schema.define(version: 20140115002230) do
     t.string   "route_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "file_path"
-    t.integer  "routes_import_parent_id"
   end
 
   create_table "routing_errors_lines", force: true do |t|
