@@ -2,8 +2,8 @@ class RailsRoutesImport
 
   include RailsRouteImportSupport
 
-  def setup(routes_options)
-    @routes_options = routes_options
+  def setup(params)
+    @routes_options = params
     @routes_config = APP_CONFIG[:routes_config]
     return true
   end

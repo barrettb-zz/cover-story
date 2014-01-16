@@ -6,10 +6,11 @@ namespace :analyze do
 
   desc "tested routes, generates data in analyses"
   task :tested => :environment do
-    LogAnalysisService.new(
-      analysis_type: "generate_route_diff",
+    las = LogAnalysisService.new(
+      analysis_type: "route_diff",
       diff_type: "tested_routes"
     )
+    las.analyze
 
 # TODO output route files as well once route related schema is cleaned up
     analysis = Analysis.last
