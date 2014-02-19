@@ -9,6 +9,7 @@ defaults: &defaults
   :log_import_config:
     :import_file_paths: "tmp/log_import/feature_regressions_test.log"
   :analysis_config:
+    :tested_title: "Tested Routes"
     :tested_x_axis_label: "Test Run"
     :tested_y_axis_label: "Coverage Percentage"
 

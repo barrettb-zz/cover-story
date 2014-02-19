@@ -1,194 +1,216 @@
 <%# borrowed from: http://bl.ocks.org/benjchristensen/2579619 %>
+<%# http://jsfiddle.net/wRDXt/2/ %>
 <%# commenting out all the rightaxis code until needed %>
 
 <html>
 	<head>
 		<title>Test Coverage</title>
-		<p>
-		  Routes covered in test (%)
-		</p>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
-
-		<style>
-			/* tell the SVG path to be a thin blue line without any area fill */
-			path {
-				stroke-width: 1;
-				fill: none;
-			}
-
-			circle {
-			  fill: #fff;
-			  stroke: #000;
-			}
-
-			text {
-			  font: 10px sans-serif;
-			}
-			
-			.testedPercentages {
-				stroke: steelblue;
-			}
-
-			.data2 {
-				stroke: black;
-			}
-
-			.axis {
-			  shape-rendering: crispEdges;
-			}
-
-			.x.axis line {
-			  stroke: lightgrey;
-			}
-
-			.x.axis .minor {
-			  stroke-opacity: .5;
-			}
-
-			.x.axis path {
-			  display: none;
-			}
-			
-			.x.axis text {
-				font-size: 14;
-			}
-
-			.y.axis line, .y.axis path {
-			  fill: none;
-			  stroke: #000;
-			}
-
-			.y.axis text {
-				font-size: 14;
-			}
-
-			.y.axisRight text {
-				fill: black;
-			}
-			
-			.y.axisLeft text {
-				fill: steelblue;
-			}
-		</style>
 	</head>
+	<style>
+		* {
+		    padding: 0;
+		    margin: 0;
+		}
+
+		html, body {
+		    height: 100%;
+		}
+
+		path {
+		    fill: none;
+		    stroke: black;
+		}
+
+		svg {
+		    display: block;
+		    width: 100%;
+		    height: 100%;
+		}
+
+		.data-point {
+		    stroke: blue;
+		    stroke-width: 1.5px;
+		    fill: white;
+		}
+
+		.data-point2 {
+		    stroke: orange;
+		    stroke-width: 1.5px;
+		    fill: white;
+		}
+
+		.data-point-text {
+		    font-family: sans-serif;
+		    font-size: 11px;
+		    fill: red;
+		}
+
+		.axis path,
+		.axis line {
+		    fill: none;
+		    stroke: black;
+		}
+
+		.axis text {
+		    font-family: sans-serif;
+		    font-size: 11px;
+		}
+
+		.infobox {
+		        position: absolute;
+		        width: 200px;
+		        padding: 10px;
+		        background-color: rgba(255,255,255,.75);
+		}
+	</style>
 	<body>
 
+		<div class="infobox">
+			<p></p>
+		</div>
 
-	<div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+		<script>
+
+			// Define the resolution
+			var width = 900;
+			var height = 400;
+
+			// Create the SVG 'canvas' (aka the graph)
+			var svg = d3.select("body")
+			    .append("svg")
+			    .attr("viewBox", "0 0 " + width + " " + height);
+
+			// get the data
+			var dataset = <%= raw @tested_results %>;
+
+			// Set the scales
+			var minDate = d3.min(dataset, function(d) { return new Date(d.date); });
+			var maxDate = d3.max(dataset, function(d) { return new Date(d.date); });
+
+			var MaxPercentage = d3.max(dataset, function(d) { return d.percentage_covered; })
+			var MaxModelPercentage = d3.max(dataset, function(d) { return d.model_percentage_covered; })
+			var MaxOverallPercentage = d3.max([MaxPercentage, MaxModelPercentage])
+
+			var labels = <%= raw @tested_labels %>
+			var xAxisLabel = labels.x_axis
+			var yAxisLabel = labels.y_axis
+
+			// Define the padding around the graph
+			var padding = 50;
+
+			var xScale = d3.time.scale()
+			    .domain([minDate, maxDate])
+			    .range([padding, width - padding]);
+
+			var yScale = d3.scale.linear()
+			    .domain([0, MaxOverallPercentage + 2])
+			    .range([height - padding, padding]);
+
+			// x-axis
+			var format = d3.time.format("%d %b");
+			var xAxis = d3.svg.axis()
+			    .scale(xScale)
+			    .orient("bottom")
+			    .tickFormat(format)
+			    .ticks(d3.time.day, 1);
+
+			svg.append("g")
+			    .attr("class", "axis x-axis")
+			    .attr("transform", "translate(0," + (height - padding) + ")")
+			    .call(xAxis);
+
+			// y-axis
+			var yAxis = d3.svg.axis()
+			    .scale(yScale)
+			    .orient("left")
+			    .tickFormat(function (d) { return d; })
+			    .tickSize(5, 5, 0)
+			    .ticks(5); // set rough # of ticks
+
+			svg.append("g")
+			    .attr("class", "axis y-axis")
+			    .attr("transform", "translate(" + padding + ",0)")
+			    .call(yAxis);
+
+			// draw line graph
+			var line = d3.svg.line()
+			    .x(function(d) {
+			        return xScale(new Date(d.date));
+			    })
+			    .y(function(d) {
+			        return yScale(d.percentage_covered);
+			    });
+
+			svg.append("svg:path").attr("d", line(dataset));
+
+			// draw line graph 2
+			var line2 = d3.svg.line()
+			    .x(function(d) {
+			        return xScale(new Date(d.date));
+			    })
+			    .y(function(d) {
+			        return yScale(d.model_percentage_covered);
+			    });
+
+			svg.append("svg:path").attr("d", line2(dataset));
+
+			// plot circles with mouseover
+			svg.selectAll("circle")
+			    .data(dataset)
+			    .enter()
+			    .append("circle")
+			    .attr("class", "data-point")
+			    .attr("cx", function(d) {
+			        return xScale(new Date(d.date));
+			    })
+			    .attr("cy", function(d) {
+			        return yScale(d.percentage_covered);
+			    })
+			    .attr("r", 2)
+				.on("mousemove", mousemove1);
+
+			function mousemove1(d, i) {
+				d3.select(".infobox").style("display", "block");
+				d3.select("p").text(d.percentage_covered+"%");
+			}
+
+			svg.selectAll("circle2")
+			    .data(dataset)
+			    .enter()
+			    .append("circle")
+			    .attr("class", "data-point2")
+			    .attr("cx", function(d) {
+			        return xScale(new Date(d.date));
+			    })
+			    .attr("cy", function(d) {
+			        return yScale(d.model_percentage_covered);
+			    })
+			    .attr("r", 2)
+				.on("mousemove", mousemove2);
+
+			function mousemove2(d, i) {
+				d3.select(".infobox").style("display", "block");
+				d3.select("p").text(d.model_percentage_covered+"%");
+			}
 
 
-	<script>
-
-		// pull in our data
-// what on earth is wrong with the dates coming in and as used below!!??!?!
-	    var testedDates = "<%= @tested_dates.to_json %>";
-		var testedPercentages = JSON.parse( "<%= @tested_percentages.to_json %>" );
-		var highestPercentage = d3.max(testedPercentages)
-
-		// define dimensions of graph
-		var m = [80, 80, 80, 80]; // margins [0top, 1right, 2bottom, 3left]
-		var w = 900 - m[1] - m[3];	// width
-		var h = 400 - m[0] - m[2]; // height
-
-		// define the labels
-		var xAxisLabel = "<%= @tested_x_axis_label %>";
-		var yAxisLabel = "<%= @tested_y_axis_label %>";
-
-// Why does the date range not work?
-// https://github.com/mbostock/d3/wiki/Time-Scales
-// var x = d3.time.scale().domain(testedDates).range([0, w]);
-		// X scale will fit all values from data[] within pixels 0-w
-		 var x = d3.scale.linear().domain([0, testedPercentages.length]).range([0, w]);
-
-		// Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
-		var y = d3.scale.linear().domain([0, highestPercentage+20]).range([h, 0]);
-
-		// create a line function that can convert data[] into x and y points
-		var line1 = d3.svg.line()
-			// assign the X function to plot our line as we wish
-			.x(function(d,i) { 
-				// verbose logging to show what's actually being done
-				console.log('Plotting X1 value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-				// return the X coordinate where we want to plot this datapoint
-				return x(i); 
-			})
-			.y(function(d) { 
-				// verbose logging to show what's actually being done
-				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-				// return the Y coordinate where we want to plot this datapoint
-				return y(d); 
-			})
-
-
-// TODO? removing data2 / line2 for now			
-//		// create a line function that can convert data[] into x and y points
-//		var line2 = d3.svg.line()
-//			// assign the X function to plot our line as we wish
-//			.x(function(d,i) { 
-//				// verbose logging to show what's actually being done
-//				console.log('Plotting X2 value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-				// return the X coordinate where we want to plot this datapoint
-//				return x(i); 
-//			})
-//			.y(function(d) { 
-//				// verbose logging to show what's actually being done
-//				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-//				// return the Y coordinate where we want to plot this datapoint
-//				return y(d); 
-//			})
-
-
-			// Add an SVG element with the desired dimensions and margin.
-			var graph = d3.select("#graph").append("svg:svg")
-			      .attr("width", w + m[1] + m[3])
-			      .attr("height", h + m[0] + m[2])
-			    .append("svg:g")
-			      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
-			// create yAxis
-		    var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
-
-			// Add the x-axis.
-			graph.append("svg:g")
-			      .attr("class", "x axis")
-			      .attr("transform", "translate(0," + h + ")")
-			      .call(xAxis);
-
-			// create left yAxis
-			var yAxisLeft = d3.svg.axis().scale(y).ticks(highestPercentage/2).orient("left");
-
-			// Add the y-axis to the left
-			graph.append("svg:g")
-			      .attr("class", "y axis axisLeft")
-			      .attr("transform", "translate(-15,0)")
-			  	  .call(yAxisLeft);
-
-			// Add an x-axis label.
-			graph.append("text")
+			// x-axis label
+			svg.append("text")
 			    .attr("class", "x label")
 			    .attr("text-anchor", "end")
-			    .attr("x", w)
-			    .attr("y", h-6)
+			    .attr("x", width)
+			    .attr("y", height-6)
 			    .text(xAxisLabel);
 
-		    // Add an y-axis label.
-			graph.append("text")
+			// y-axis label
+			svg.append("text")
 			    .attr("class", "y label")
 			    .attr("text-anchor", "end")
 			    .attr("y", 6)
 			    .attr("dy", ".75em")
 			    .attr("transform", "rotate(-90)")
-			    .text(yAxisLabel);
-
-			
-			// add lines
-			// do this AFTER the axes above so that the line is above the tick-lines
-  			graph.append("svg:path").attr("d", line1(testedPercentages)).attr("class", "testedPercentages");
-
-// TODO? removing data2 / line2 for now	
-//  			graph.append("svg:path").attr("d", line2(data2)).attr("class", "data2");
-
+			    .text(yAxisLabel)
 
 	  </script>
 	</body>
