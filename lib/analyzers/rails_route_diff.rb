@@ -1,5 +1,4 @@
-#TODO I plan to deprecate this in favor of RouteDiff / RouteDiffGenerator,
-# but am still working on it
+#TODO deprecate this in favor of RouteDiff
 
 =begin
 class RailsRouteDiff
