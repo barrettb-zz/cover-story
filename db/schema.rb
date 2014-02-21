@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116012829) do
+ActiveRecord::Schema.define(version: 20140221002238) do
 
   create_table "analyses", force: true do |t|
     t.integer  "source_id"
-    t.decimal  "percentage_covered"
+    t.decimal  "percentage_covered",       precision: 10, scale: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "analysis_type"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.integer  "routes_import_id"
   end
 
-  add_index "analyses", ["source_id"], name: "index_analyses_on_source_id"
+  add_index "analyses", ["source_id"], name: "index_analyses_on_source_id", using: :btree
 
   create_table "analyzed_route_models", force: true do |t|
     t.integer  "analysis_id"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.datetime "updated_at"
   end
 
-  add_index "analyzed_route_models", ["analysis_id"], name: "index_analyzed_route_models_on_analysis_id"
+  add_index "analyzed_route_models", ["analysis_id"], name: "index_analyzed_route_models_on_analysis_id", using: :btree
 
   create_table "analyzed_routes", force: true do |t|
     t.integer  "analysis_id"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.float   "db"
   end
 
-  add_index "completed_lines", ["request_id"], name: "index_completed_lines_on_request_id"
-  add_index "completed_lines", ["source_id"], name: "index_completed_lines_on_source_id"
+  add_index "completed_lines", ["request_id"], name: "index_completed_lines_on_request_id", using: :btree
+  add_index "completed_lines", ["source_id"], name: "index_completed_lines_on_source_id", using: :btree
 
   create_table "failure_lines", force: true do |t|
     t.integer "request_id"
@@ -66,18 +66,18 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.string  "file"
   end
 
-  add_index "failure_lines", ["request_id"], name: "index_failure_lines_on_request_id"
-  add_index "failure_lines", ["source_id"], name: "index_failure_lines_on_source_id"
+  add_index "failure_lines", ["request_id"], name: "index_failure_lines_on_request_id", using: :btree
+  add_index "failure_lines", ["source_id"], name: "index_failure_lines_on_source_id", using: :btree
 
   create_table "parameters_lines", force: true do |t|
     t.integer "request_id"
     t.integer "source_id"
     t.integer "lineno"
-    t.string  "params"
+    t.text    "params"
   end
 
-  add_index "parameters_lines", ["request_id"], name: "index_parameters_lines_on_request_id"
-  add_index "parameters_lines", ["source_id"], name: "index_parameters_lines_on_source_id"
+  add_index "parameters_lines", ["request_id"], name: "index_parameters_lines_on_request_id", using: :btree
+  add_index "parameters_lines", ["source_id"], name: "index_parameters_lines_on_source_id", using: :btree
 
   create_table "processing_lines", force: true do |t|
     t.integer "request_id"
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.string  "format"
   end
 
-  add_index "processing_lines", ["request_id"], name: "index_processing_lines_on_request_id"
-  add_index "processing_lines", ["source_id"], name: "index_processing_lines_on_source_id"
+  add_index "processing_lines", ["request_id"], name: "index_processing_lines_on_request_id", using: :btree
+  add_index "processing_lines", ["source_id"], name: "index_processing_lines_on_source_id", using: :btree
 
   create_table "rendered_lines", force: true do |t|
     t.integer "request_id"
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.float   "partial_duration"
   end
 
-  add_index "rendered_lines", ["request_id"], name: "index_rendered_lines_on_request_id"
-  add_index "rendered_lines", ["source_id"], name: "index_rendered_lines_on_source_id"
+  add_index "rendered_lines", ["request_id"], name: "index_rendered_lines_on_request_id", using: :btree
+  add_index "rendered_lines", ["source_id"], name: "index_rendered_lines_on_source_id", using: :btree
 
   create_table "requests", force: true do |t|
     t.integer "first_lineno"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.integer  "routes_import_source_id"
   end
 
-  add_index "routes", ["routes_import_id"], name: "index_routes_on_routes_import_id"
+  add_index "routes", ["routes_import_id"], name: "index_routes_on_routes_import_id", using: :btree
 
   create_table "routes_import_sources", force: true do |t|
     t.string   "file_path"
@@ -144,8 +144,8 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.string  "missing_resource"
   end
 
-  add_index "routing_errors_lines", ["request_id"], name: "index_routing_errors_lines_on_request_id"
-  add_index "routing_errors_lines", ["source_id"], name: "index_routing_errors_lines_on_source_id"
+  add_index "routing_errors_lines", ["request_id"], name: "index_routing_errors_lines_on_request_id", using: :btree
+  add_index "routing_errors_lines", ["source_id"], name: "index_routing_errors_lines_on_source_id", using: :btree
 
   create_table "sources", force: true do |t|
     t.string   "filename"
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.string   "env"
   end
 
-  add_index "sources", ["env"], name: "index_sources_on_env"
+  add_index "sources", ["env"], name: "index_sources_on_env", using: :btree
 
   create_table "started_lines", force: true do |t|
     t.integer  "request_id"
@@ -165,15 +165,15 @@ ActiveRecord::Schema.define(version: 20140116012829) do
     t.string   "employer"
     t.string   "session"
     t.string   "method"
-    t.string   "path"
+    t.text     "path"
     t.string   "ip"
     t.datetime "timestamp"
     t.string   "formatted_path"
     t.string   "model"
   end
 
-  add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id"
-  add_index "started_lines", ["source_id"], name: "index_started_lines_on_source_id"
+  add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id", using: :btree
+  add_index "started_lines", ["source_id"], name: "index_started_lines_on_source_id", using: :btree
 
   create_table "warnings", force: true do |t|
     t.string  "warning_type", limit: 30, null: false
