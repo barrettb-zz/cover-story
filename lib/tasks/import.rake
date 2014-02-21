@@ -79,4 +79,25 @@ namespace :import do
       Rake::Task['import:clear:logs'].invoke
     end
   end
+
+  namespace :ignore do
+    desc "ignore log file"
+    task :log => :environment do
+      raise "need to set MATCHER=id, last or date" if ENV["MATCHER"].nil?
+      if ENV["MATCHER"] == "date" || ENV["MATCHER"] == "id"
+        raise "need to set VALUE when using 'date' or 'id'.  Date format is 'YYYY, MM, DD'" if ENV["VALUE"].nil?
+      end
+      DataClearer.ignore_import(:log, ENV["MATCHER"].to_sym, ENV["VALUE"])
+    end
+
+    desc "ignore routes import file"
+    task :routes => :environment do
+      raise "need to set MATCHER=id, last or date" if ENV["MATCHER"].nil?
+      if ENV["MATCHER"] == "date" || ENV["MATCHER"] == "id"
+        raise "need to set VALUE when using 'date' or 'id'.  Date format is 'YYYY, MM, DD'" if ENV["VALUE"].nil?
+      end
+      DataClearer.ignore_import(:routes, ENV["MATCHER"].to_sym, ENV["VALUE"])
+    end
+  end
+
 end
