@@ -23,24 +23,26 @@ namespace :analyze do
   namespace :clear do
     desc "clear analyses"
     task :analyses => :environment do
-      Analysis.delete_all
+      if ENV["REALLY_CLEAR"]
+        DataClearer.clear_analyses_data
+      else
+        puts "if you intend to really clear all analyses data, set REALLY_CLEAR=1"
+      end
     end
 
     desc "clear analyzed routes"
     task :analyzed_routes => :environment do
-      AnalyzedRoutes.delete_all
-    end
-
-    desc "clear analyzed route models"
-    task :analyzed_route_models => :environment do
-      AnalyzedRouteModel.delete_all
+      if ENV["REALLY_CLEAR"]
+        DataClearer.clear_analyzed_routes_data
+      else
+        puts "if you intend to really clear all analyzed routes data, set REALLY_CLEAR=1"
+      end
     end
 
     desc "clear all import types (routes and logs)"
     task :all => :environment do
       Rake::Task['analyze:clear:analyses'].invoke
       Rake::Task['analyze:clear:analyzed_routes'].invoke
-      Rake::Task['analyze:clear:analyzed_route_models'].invoke
     end
   end
 end
