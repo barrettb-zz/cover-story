@@ -5,7 +5,7 @@ gem 'rails', '4.0.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'mysql2'
 gem 'splunk-sdk-ruby'
 gem "request-log-analyzer", :git => "git@github.com:mmorast/request-log-analyzer.git", :branch => "master"
 gem 'daemons-rails'
