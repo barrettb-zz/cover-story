@@ -96,11 +96,19 @@ private
   end
 
   def test_log_source_id
-    LogSource.where(env: 'test').last.id
+    valid_log_sources = LogSource.where(env: 'test').where(ignore: [false, nil])
+    unless valid_log_sources.count > 0
+      raise "There are no valid log sources"
+    end
+    valid_log_sources.last.id
   end
 
   def routes_import_id
-    RoutesImport.last.id
+    valid_routes_imports = RoutesImport.where(ignore: [false, nil])
+    unless valid_routes_imports.count > 0
+      raise "There are no valid routes imports"
+    end
+    valid_routes_imports.last.id
   end
 
   def routes_import_routes

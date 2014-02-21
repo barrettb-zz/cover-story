@@ -58,18 +58,18 @@ namespace :import do
     desc "clear log files"
     task :logs => :environment do
       if ENV["REALLY_CLEAR"]
-        DataClearer.clear_log_import_data
+        DataClearer.delete_log_import_data
       else
-        puts "if you intend to really clear all log imports, set REALLY_CLEAR=1"
+        puts "Nothing happened. If you intend to clear ALL log imports, set REALLY_CLEAR=1"
       end
     end
 
     desc "clear routes files"
     task :routes => :environment do
       if ENV["REALLY_CLEAR"]
-        DataClearer.clear_routes_import_data
+        DataClearer.delete_routes_import_data
       else
-        puts "if you intend to really clear all routes imports, set REALLY_CLEAR=1"
+        puts "Nothing happened. If you intend to clear ALL routes imports, set REALLY_CLEAR=1"
       end
     end
 
