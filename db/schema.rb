@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221175456) do
+ActiveRecord::Schema.define(version: 20140225024342) do
 
   create_table "analyses", force: true do |t|
     t.integer  "source_id"
@@ -105,6 +105,13 @@ ActiveRecord::Schema.define(version: 20140221175456) do
   create_table "requests", force: true do |t|
     t.integer "first_lineno"
     t.integer "last_lineno"
+  end
+
+  create_table "revisions", force: true do |t|
+    t.integer  "routes_import_id"
+    t.string   "tag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "routes", force: true do |t|
