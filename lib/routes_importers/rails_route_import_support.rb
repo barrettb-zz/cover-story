@@ -55,14 +55,6 @@ private
     name
   end
 
-  def path_prefix
-    @routes_config[:routes_path_prefix]
-  end
-
-  def path_prefix_files
-    @routes_config[:routes_path_prefix_files]
-  end
-
   def routes_import_file
     @routes_options[:import_path]
   end
@@ -75,8 +67,11 @@ private
     segments = split_line_into_segments(line)
     return unless segments.find { |e| /(.:format)/ =~ e } # nothing to process
     p = segments.find { |e| /(.:format)/ =~ e }
-    if routes_import_file.in? path_prefix_files
-      path = "#{path_prefix}#{p.gsub('(.:format)', '')}"
+
+    routes_path_prefix = @routes_config[:routes_path_prefix]
+    routes_path_prefix_file_matcher = @routes_config[:routes_path_prefix_file_matcher]
+    if routes_import_file.match routes_path_prefix_file_matcher
+      path = "#{routes_path_prefix}#{p.gsub('(.:format)', '')}"
     else
       path = "#{p.gsub('(.:format)', '')}"
     end

@@ -8,14 +8,13 @@ class RailsRoutesImport
     return true
   end
 
-  def fetch()
-    # get file contents, prioritizing specified file, then defaule file location
+  def fetch
     @tmp_routes_file = nil
     @tmp_routes_file = File.read(routes_import_file)
     return true
   end
 
-  def parse()
+  def parse
     routes_import = @routes_options[:routes_import]
     records = @tmp_routes_file.lines.collect do |l|
        parse_out_route_info_and_add_to_database(l, routes_import)
@@ -24,7 +23,7 @@ class RailsRoutesImport
     return true
   end
 
-  def import()
+  def import
     # grab configs
     routes_config = APP_CONFIG[:routes_config]
 
@@ -33,11 +32,9 @@ class RailsRoutesImport
       route_type: @routes_options[:type]
     )
 
-    # get files to import
-    @routes_options[:file_list] ||= routes_config[:import_file_paths]
-    import_paths = @routes_options[:file_list].gsub(" ", "").split(",")
+    @file_list = @routes_options[:file_list]
 
-    import_paths.each do |import_path|
+    @file_list.each do |import_path|
       @routes_options[:import_path] = import_path
 
       # create routes file source records
@@ -54,5 +51,11 @@ class RailsRoutesImport
       raise "Routes import failed." unless @import_status
     end
     return @import_status
+  end
+
+  def teardown
+    @file_list.each do |file|
+      File.delete(file)
+    end
   end
 end

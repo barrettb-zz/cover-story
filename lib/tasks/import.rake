@@ -6,15 +6,17 @@ namespace :import do
   desc "import log files"
   task :logs => :environment do
     start_count = LogSource.count
-    if ENV["LOG_FILE_LIST"]
-      files = ENV["LOG_FILE_LIST"]
-    else
-      config = APP_CONFIG[:log_import_config]
-      files = config[:import_file_paths]
+
+    # normally we use a listener in the log import directory,
+    # but in the case of rake we run on a provided
+    # list of files at runtime:
+    # MANUAL_LOG_FILE_LIST="file1, file2")
+    unless ENV["MANUAL_LOG_FILE_LIST"]
+      raise "Need to provide files: MANUAL_LOG_FILE_LIST='file1, file2'"
     end
 
     file_list = [ ]
-    files.split(',').each { |file| file_list << file.strip }
+    ENV["MANUAL_LOG_FILE_LIST"].split(',').each { |file| file_list << file.strip }
     puts "importing from log file list: #{file_list}"
 
     ls = LogService.new(type: "local_rails", file_list: file_list)
@@ -37,11 +39,17 @@ namespace :import do
   desc "import routes files"
   task :routes => :environment do
     start_count = Route.count
-    if ENV["ROUTES_FILE_LIST"]
-      ris = RoutesImportService.new(type: "rails", file_list: ENV["ROUTES_FILE_LIST"])
-    else
-      ris = RoutesImportService.new(type: "rails")
+
+    # normally we use a listener in the routes import directory,
+    # but in the case of rake we run on a provided
+    # list of files at runtime:
+    # MANUAL_ROUTES_FILE_LIST="file1, file2")
+    unless ENV["MANUAL_ROUTES_FILE_LIST"]
+      raise "Need to provide files: MANUAL_ROUTES_FILE_LIST='file1, file2'"
     end
+
+    file_list = ENV["MANUAL_ROUTES_FILE_LIST"].gsub(" ", "").split(",")
+    ris = RoutesImportService.new(type: "rails", file_list: file_list)
     ris.import
     end_count = Route.count
     added_count = end_count - start_count
