@@ -4,7 +4,7 @@ class PathProcessor
 
     def format_latest_log_paths
       latest_log_id = LogSource.last.id
-      StartedLine.where(source_id: latest_log_id).each do |line|
+      LogStartedLine.where(source_id: latest_log_id).each do |line|
         formatted_path = line.path
         # replace id with ":id"
         formatted_path.gsub!(/\d+/, ":id")
@@ -17,7 +17,7 @@ class PathProcessor
 
     def extract_models_for_latest_log_paths
       latest_log_id = LogSource.last.id
-      StartedLine.where(source_id: latest_log_id).each do |line|
+      LogStartedLine.where(source_id: latest_log_id).each do |line|
         path_model = extract_model_from_path(line.path)
         line.update_attributes(model: path_model)
       end

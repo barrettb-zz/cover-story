@@ -11,6 +11,7 @@ gem "request-log-analyzer", :git => "git@github.com:mmorast/request-log-analyzer
 gem 'daemons-rails'
 gem 'listen', '~> 2.0'
 gem "d3-rails"
+gem 'rubyzip'
 
 # Gems used only for assets and not required
 # in production environments by default.

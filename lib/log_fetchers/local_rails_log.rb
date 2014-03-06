@@ -35,7 +35,6 @@ class LocalRailsLog
     @file_list.each do |file| 
       File.delete(file)
     end
-
   end
 
 end

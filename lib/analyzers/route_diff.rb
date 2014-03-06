@@ -60,7 +60,7 @@ class RouteDiff
 private
 
   def tested_routes
-    StartedLine.where(source_id: test_log_source_id).map &:formatted_path
+    LogStartedLine.where(source_id: test_log_source_id).map &:formatted_path
   end
 
   def tested_routes_percentage
@@ -70,7 +70,7 @@ private
   end
 
   def tested_routes_models
-    StartedLine.where(source_id: test_log_source_id).map &:model
+    LogStartedLine.where(source_id: test_log_source_id).map &:model
   end
 
   def tested_routes_model_percentage

@@ -5,9 +5,11 @@ class LogSource < ActiveRecord::Base
 
   def self.parse_filename(filename)
     md = /(?<ci_job_num>[\d]*)-*(?<ci_job>[\w\ ]*)-*(?<env>development|production|test).log/.match filename
+    if md == ''
+      raise "Log file '#{filename}' cannot be processed.  Check name/extension (.log expected)"
+    end
     log_source = where(filename: filename).last
     log_source.update_attributes(file_type: "rails", env: md[:env])
-
   end
 
 

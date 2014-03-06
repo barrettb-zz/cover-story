@@ -22,7 +22,7 @@ class DataClearer
 
     def delete_log_import_data
       LogSource.delete_all
-      StartedLine.delete_all
+      LogStartedLine.delete_all
       CompletedLine.delete_all
       FailureLine.delete_all
       ParametersLine.delete_all

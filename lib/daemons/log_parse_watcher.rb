@@ -16,55 +16,29 @@ end
 
 while($running) do
 
-  import_listener = Listen.to(File.join(root, APP_CONFIG[:file_drop_dir])) do |modified, added, removed|
+  file_drop_dir = APP_CONFIG[:file_drop_dir]
+
+  # fail fast if needed configs are missing
+  unless file_drop_dir
+    raise "Set config file_drop_dir (current environment: #{Rails.env.upcase})"
+  end
+
+  import_listener = Listen.to(File.join(root, file_drop_dir)) do |modified, added, removed|
+    results_output = ["#{Time.now}:"]
+
     if added.any?
-      @results_output = ["Results for #{Time.now}:"]
-
-      routes_files = added.select { |a| a.downcase.match("route") }
-      log_files = added.select { |a| !a.downcase.match("route") }
-
-      if routes_files.any?
-        routes_files_parms = { }
-        # TODO seems like this should be defined elsewhere?
-        routes_files_parms[:type] = "rails"
-        routes_files_parms[:file_list] = routes_files
-        ris = RoutesImportService.new(routes_files_parms)
-        ris.import
-        ris.teardown
-        @results_output.push("Routes files added: #{routes_files}") if routes_files.any?
-      end
-
-      if log_files.any?
-        log_files_parms = { }
-        log_files_parms[:file_list] = log_files
-        # TODO seems like this should be defined elsewhere?
-        log_files_parms[:type] = "local_rails"
-        ls = LogService.new(log_files_parms)
-        ls.fetch
-        f_p_status = ls.parse
-        ls.teardown
-        @results_output.push("Log files added: #{log_files}") if log_files.any?
-      end
-
-      analysis_types = ["tested_routes"]
-      analysis_types.each do |type|
-        las = LogAnalysisService.new(
-          analysis_type: "route_diff",
-          diff_type: type
-        )
-        las.analyze
-      end
-
-      @results_output.push("Analyzed for: #{analysis_types.to_sentence}")
+      puts "+added: #{added}\nPlease dream of better days while things process..."
+      is = ImportService.new(added)
+      is.import
+      results_output << is.results
     end
 
-    @results_output.push("Files modified: #{modified}") if modified.any?
-    @results_output.push("Files removed: #{removed}") if removed.any?
-
-    @results_output.each {|o| puts o}
+    results_output << "~modified: #{modified}" if modified.any?
+    results_output << "-removed: #{removed}" if removed.any?
+    puts results_output
   end
 
   import_listener.start
-  puts "Listening for logs and routes at: #{APP_CONFIG[:file_drop_dir]}"
+  puts "Listening for logs and routes at: #{file_drop_dir}"
   sleep
 end

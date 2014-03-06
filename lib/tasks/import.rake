@@ -30,7 +30,7 @@ namespace :import do
 
     added_count.times do |num|
       id = latest_log_source_id - num
-      started_lines_added_count = StartedLine.where(source_id: id).count
+      started_lines_added_count = LogStartedLine.where(source_id: id).count
       log_source_file = LogSource.find(id).filename
       puts " => SourceLog id: #{id}. Imported #{started_lines_added_count} lines (filename: #{log_source_file})"
     end
