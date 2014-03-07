@@ -4,6 +4,10 @@ defaults: &defaults
   :analyzer_filetype_path: "lib/log_parser/request_log_analyzer/rails_pa.rb"
   :log_config:
     :log_file_format: '(?<ci_job_num>[\d]*)-*(?<ci_job>[\w\ ]*)-*(?<env>development|production|test).log'
+    :environments: 'production, test, development'
+    :routes_file_matcher: 'routes'
+    :log_file_matcher: 'log'
+    :meta_file_matcher: 'meta'
   :routes_config:
     :routes_path_prefix: "/hr"
     :routes_path_prefix_file_matcher: "hr_suite"

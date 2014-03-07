@@ -1,25 +1,23 @@
 module AcceptedFiles
 
-# TODO consider moving these to config
   def routes_file_matcher
-    "routes"
+    APP_CONFIG[:log_config][:routes_file_matcher]
   end
 
   def log_file_matcher
-    "log"
+    APP_CONFIG[:log_config][:log_file_matcher]
   end
 
   def meta_file_matcher
-    "meta"
+    APP_CONFIG[:log_config][:meta_file_matcher]
   end
 
   def accepted_file_types
     [log_file_matcher, routes_file_matcher, meta_file_matcher]
   end
 
-# TODO consider moving these to config, reference it in monte's log_source model
   def accepted_log_environments
-    ['production', 'test', 'development']
+    APP_CONFIG[:log_config][:environments].split(", ")
   end
 
   def accepted_file?(file_name)
