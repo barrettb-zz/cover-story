@@ -18,8 +18,8 @@ class ImportService < SimpleDelegator
   end
 
   def import
-    self.results << ".#{Time.now}: importing from: #{file_dirnames(@file_names).uniq}"
-    logger.info ".importing from: #{file_dirnames(@file_names).uniq}"
+    self.results << "*#{Time.now} - importing from: #{file_dirnames(@file_names).uniq}"
+    logger.info "*importing from: #{file_dirnames(@file_names).uniq}"
     self.unbundle
     ensure_are_files_are_accepted_for_import(@file_names)
     self.import_routes_files
