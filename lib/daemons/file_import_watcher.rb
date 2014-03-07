@@ -16,6 +16,8 @@ end
 
 while($running) do
 
+  include ResultsLogger
+
   file_drop_dir = APP_CONFIG[:file_drop_dir]
 
   # fail fast if needed configs are missing
@@ -24,21 +26,28 @@ while($running) do
   end
 
   import_listener = Listen.to(File.join(root, file_drop_dir)) do |modified, added, removed|
-    results_output = ["#{Time.now}:"]
+    results_output = []
 
     if added.any?
-      puts "+added: #{added}\nPlease dream of better days while things process..."
       is = ImportService.new(added)
       is.import
       results_output << is.results
     end
 
-    results_output << "~modified: #{modified}" if modified.any?
-    results_output << "-removed: #{removed}" if removed.any?
+    if modified.any?
+      results_output << "~modified: #{modified.map {|f| File.basename(f)}}"
+      logger.info "~modified: #{modified.map {|f| File.basename(f)}}"
+    end
+
+    if removed.any?
+      results_output << "-removed: #{removed.map {|f| File.basename(f)}}"
+      logger.info "-removed: #{removed.map {|f| File.basename(f)}}"
+    end
+
     puts results_output
   end
 
   import_listener.start
-  puts "Listening for logs and routes at: #{file_drop_dir}"
+  puts ".listening for logs and routes at: #{file_drop_dir}"
   sleep
 end

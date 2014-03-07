@@ -34,11 +34,25 @@ module AcceptedFiles
       unless accepted_file?(f)
         raise "file '#{f}' not accepted. No files in drop processed: #{file_names}"
       end
-      ensure_log_files_include_environment_in_name(f)
+      ensure_log_file_format(f)
+      # TODO: ths is redundant with the above format check.
+      #   need to discuss best practice here
+      ensure_log_file_includes_environment_in_name(f)
     end
   end
 
-  def ensure_log_files_include_environment_in_name(file_name)
+  def ensure_log_file_format(file_name)
+    return unless file_type(file_name) == :log
+    format = APP_CONFIG[:log_config][:log_file_format]
+    format_regexp = Regexp.new format
+    unless format_regexp.match file_name
+      raise "LOG file name not in correct format. No files in drop processed: #{file_name}"
+    end
+  end
+
+  def ensure_log_file_includes_environment_in_name(file_name)
+    return unless file_type(file_name) == :log
+
     # convert to regex and compare
     line = ''
     accepted_log_environments.each do |e|
@@ -47,7 +61,7 @@ module AcceptedFiles
     end
     matcher = Regexp.new line.chomp('|')
 
-    if file_type(file_name) == :log && !file_name.match(matcher)
+    unless file_name.match(matcher)
       raise "LOG file names need to specify environment. No files in drop processed. Environments: #{accepted_log_environments}"
     end
   end

@@ -1,13 +1,14 @@
-#ImportService.new(file_names: ["a.zip"])
-# /Users/cbradbury/pacode/cover-story/test/fixtures/files/bundle.zip
 # ImportService.new(["/Users/cbradbury/pacode/cover-story/test/fixtures/files/bundle.zip"])
 
+require 'zip'
+require 'importers/bundle_handler'
+require 'importers/accepted_files'
+
 class ImportService < SimpleDelegator
-  require 'zip'
-  require 'importers/bundle_handler'
-  require 'importers/accepted_files'
+
   include AcceptedFiles
   include BundleFiles
+  include ResultsLogger
 
   attr_accessor :results
 
@@ -17,6 +18,8 @@ class ImportService < SimpleDelegator
   end
 
   def import
+    self.results << ".#{Time.now}: importing from: #{file_dirnames(@file_names).uniq}"
+    logger.info ".importing from: #{file_dirnames(@file_names).uniq}"
     self.unbundle
     ensure_are_files_are_accepted_for_import(@file_names)
     self.import_routes_files
@@ -24,6 +27,10 @@ class ImportService < SimpleDelegator
     self.import_meta_files
     self.analyze
     self.teardown
+
+  rescue StandardError => e
+    puts "!error in importing files. See log. #{file_basenames @file_names}\n  #{e.message}"
+    logger.error "!error importing: #{file_basenames @file_names}\n  #{e.message}"
   end
 
 # TODO figure out a way to organize all the below,
@@ -39,7 +46,9 @@ class ImportService < SimpleDelegator
       ris = RoutesImportService.new(routes_files_parms)
       ris.import
       ris.teardown
-      self.results << "+routes: #{routes_files}"
+
+      self.results << "+routes: #{file_basenames routes_files}"
+      logger.info "+routes: #{file_basenames routes_files}"
     end
   end
 
@@ -54,7 +63,9 @@ class ImportService < SimpleDelegator
       ls.fetch
       f_p_status = ls.parse
       ls.teardown
-      self.results << "+logs: #{log_files}"
+
+      self.results << "+logs: #{file_basenames log_files}"
+      logger.info "+logs: #{file_basenames log_files}"
     end
   end
 
@@ -62,12 +73,14 @@ class ImportService < SimpleDelegator
     meta_files = meta_files_from_group(@file_names)
     if meta_files.any?
       # TODO
-      self.results << "+meta: #{meta_files}"
+      logger.info "+meta: #{file_basenames meta_files}"
+      self.results << "+meta: #{file_basenames meta_files}"
     end
   end
 
   def analyze
     analysis_types = ["tested_routes"]
+
     analysis_types.each do |type|
       las = LogAnalysisService.new(
         analysis_type: "route_diff",
@@ -75,20 +88,34 @@ class ImportService < SimpleDelegator
       )
       las.analyze
     end
+
     self.results << "+analysis: #{analysis_types}"
+    logger.info "+analysis: #{analysis_types}"
   end
 
   def unbundle
     if bundle_files(@file_names).any?
       @bundle_files = bundle_files(@file_names)
       bh = BundleHandler.new
-      self.results << "+unbundled: #{@bundle_files}"
       @file_names = bh.run(@file_names) # reset file names to bundle contents
+
+      self.results << "+unbundle: #{file_basenames @bundle_files}"
+      logger.info "+unbundle: #{file_basenames @bundle_files}"
     end
   end
 
   def teardown
     @file_names.each { |f| File.delete(f) if File.exists?(f) } unless @file_names.nil?
     @bundle_files.each { |f| File.delete(f) if File.exists?(f) } unless @bundle_files.nil?
+  end
+
+private
+
+  def file_basenames(file_names)
+    file_names.map { |f| File.basename(f)}
+  end
+
+  def file_dirnames(file_names)
+    file_names.map { |f| File.dirname(f)}
   end
 end
