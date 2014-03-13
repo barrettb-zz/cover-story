@@ -22,15 +22,21 @@ class ImportService < SimpleDelegator
     logger.info "*importing from: #{file_dirnames(@file_names).uniq}"
     self.unbundle
     ensure_are_files_are_accepted_for_import(@file_names)
+    create_import_collection_record
     self.import_routes_files
     self.import_log_files
     self.import_meta_files
     self.analyze
     self.teardown
-
   rescue StandardError => e
-    puts "!error in importing files. See log. #{file_basenames @file_names}\n  #{e.message}"
-    logger.error "!error importing: #{file_basenames @file_names}\n  #{e.message}"
+    message = "!error in importing files. See log. #{file_basenames @file_names}"
+    output_and_log_error(message, e)
+  end
+
+  def create_import_collection_record
+    ic = ImportCollection.create
+    @bundle_files && ic.update_attributes( bundle_file_name: File.basename(@bundle_files.last) )
+    @import_collection_id = ic.id
   end
 
 # TODO figure out a way to organize all the below,
@@ -39,33 +45,35 @@ class ImportService < SimpleDelegator
   def import_routes_files
     routes_files = routes_files_from_group(@file_names)
     if routes_files.any?
-      routes_files_parms = { }
+      params = { }
       # TODO seems like this should be defined elsewhere?
-      routes_files_parms[:type] = "rails"
-      routes_files_parms[:file_list] = routes_files
-      ris = RoutesImportService.new(routes_files_parms)
+      params[:file_list] = routes_files
+      ris = RoutesImportService.new(params)
       ris.import
       ris.teardown
 
-      self.results << "+routes: #{file_basenames routes_files}"
-      logger.info "+routes: #{file_basenames routes_files}"
+      info = "+routes: #{file_basenames routes_files}"
+      self.results << info
+      logger.info info
     end
   end
 
   def import_log_files
     log_files = log_files_from_group(@file_names)
     if log_files.any?
-      log_files_parms = { }
-      log_files_parms[:file_list] = log_files
+      log_files_params = { }
+      log_files_params[:file_list] = log_files
       # TODO seems like this should be defined elsewhere?
-      log_files_parms[:type] = "local_rails"
-      ls = LogService.new(log_files_parms)
+      #      how do we process other files at this point?
+      log_files_params[:type] = "local_rails"
+      ls = LogService.new(log_files_params)
       ls.fetch
       f_p_status = ls.parse
       ls.teardown
 
-      self.results << "+logs: #{file_basenames log_files}"
-      logger.info "+logs: #{file_basenames log_files}"
+      info = "+logs: #{file_basenames log_files}"
+      self.results << info
+      logger.info info
     end
   end
 
@@ -73,24 +81,22 @@ class ImportService < SimpleDelegator
     meta_files = meta_files_from_group(@file_names)
     if meta_files.any?
       # TODO
-      logger.info "+meta: #{file_basenames meta_files}"
-      self.results << "+meta: #{file_basenames meta_files}"
+      info = "+meta: #{file_basenames meta_files}"
+      self.results << info
+      logger.info info
     end
   end
 
   def analyze
-    analysis_types = ["tested_routes"]
+    analysis_types = ["tested_route_paths"]
 
     analysis_types.each do |type|
-      las = LogAnalysisService.new(
-        analysis_type: "route_diff",
-        diff_type: type
-      )
-      las.analyze
+      LogAnalysisService.new(type: type).analyze
     end
 
-    self.results << "+analysis: #{analysis_types}"
-    logger.info "+analysis: #{analysis_types}"
+    info = "+analysis: #{analysis_types}"
+    self.results << info
+    logger.info info
   end
 
   def unbundle
@@ -99,8 +105,9 @@ class ImportService < SimpleDelegator
       bh = BundleHandler.new
       @file_names = bh.run(@file_names) # reset file names to bundle contents
 
-      self.results << "+unbundle: #{file_basenames @bundle_files}"
-      logger.info "+unbundle: #{file_basenames @bundle_files}"
+      info = "+unbundle: #{file_basenames @bundle_files}"
+      self.results << info
+      logger.info info
     end
   end
 
@@ -116,6 +123,6 @@ private
   end
 
   def file_dirnames(file_names)
-    file_names.map { |f| File.dirname(f)}
+    file_names.map { |f| File.dirname(f).gsub(Rails.root.to_s, '')}
   end
 end

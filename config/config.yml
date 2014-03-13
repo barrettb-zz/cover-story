@@ -9,6 +9,7 @@ defaults: &defaults
     :log_file_matcher: 'log'
     :meta_file_matcher: 'meta'
   :routes_config:
+    :type: "rails"
     :routes_path_prefix: "/hr"
     :routes_path_prefix_file_matcher: "hr_suite"
   :analysis_config:
