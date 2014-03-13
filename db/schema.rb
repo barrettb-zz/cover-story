@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313084221) do
+ActiveRecord::Schema.define(version: 20140313090436) do
 
   create_table "analyses", force: true do |t|
     t.decimal  "percentage_covered",   precision: 10, scale: 0
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140313084221) do
   end
 
   create_table "revisions", force: true do |t|
-    t.integer  "routes_import_id"
+    t.integer  "import_collection_id"
     t.string   "tag"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -2,7 +2,7 @@ class DataClearer
 
   class << self
 
-    # type:     :log, :routes
+    # type:     :log, :import_collection
     # matcher:  :date, :id, :last
     # value:    for :date, :id.  nil for :last
     #           Date format: "YYYY, MM, DD"
@@ -11,7 +11,7 @@ class DataClearer
       toggle_import_ignore(true, type, matcher, value)
     end
 
-    # type:     :log, :routes
+    # type:     :log, :import_collection
     # matcher:  :date, :id, :last
     # value:    for :date, :id.  nil for :last
     #           Date format: "YYYY, MM, DD"
@@ -34,11 +34,10 @@ class DataClearer
       puts "Cleared all log import data (harshly deleted)"
     end
 
-    def delete_routes_import_data
+    def delete_routes_data
       Route.delete_all
-      RoutesImport.delete_all
-      RoutesImportSource.delete_all
-      puts "Cleared all routes import data (coldly deleted)"
+      RouteHistory.delete_all
+      puts "Cleared all routes data (coldly deleted)"
     end
 
     def delete_analyses_data
@@ -46,15 +45,21 @@ class DataClearer
       puts "Cleared all analyses data (cruely deleted)"
     end
 
+    def delete_import_collection_data
+      ImportCollection.delete_all
+      Revision.delete_all
+      puts "Cleared all import collection/revision data"
+    end
+
     def delete_analyzed_routes_data
-      AnalyzedRoutes.delete_all
-      AnalyzedRouteModel.delete_all
-      puts "Cleared all analyzed routes data (hope you didn't need this)"
+      AnalyzedRoutePath.delete_all
+      AnalyzedRouteController.delete_all
+      puts "Cleared all analyzed route data (hope you didn't need this)"
     end
 
   private
 
-    # type:     :log, :routes
+    # type:     :log, :import_collection
     # matcher:  :date, :id, :last
     # value:    for :date, :id.  nil for :last
     #           Date format: "YYYY, MM, DD"
@@ -64,10 +69,10 @@ class DataClearer
       case type
       when :log
         klass = "LogSource"
-      when :routes
-        klass = "RoutesImport"
+      when :import_collection
+        klass = "ImportCollection"
       else
-        raise "please use :log or :routes"
+        raise "please use :log or :import_collection"
       end
 
       case matcher
@@ -79,7 +84,7 @@ class DataClearer
           records = klass.constantize.where(
             mtime: formatted_date.beginning_of_day..formatted_date.end_of_day
           )
-        elsif type == :routes
+        elsif type == :import_collection
           records = klass.constantize.where(
             created_at: formatted_date.beginning_of_day..formatted_date.end_of_day
           )
@@ -93,6 +98,5 @@ class DataClearer
 
       records.each { |r| r.update_attributes(ignore: setting) }
     end
-
   end
 end

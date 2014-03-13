@@ -75,7 +75,16 @@ namespace :import do
     desc "clear routes files"
     task :routes => :environment do
       if ENV["REALLY_CLEAR"]
-        DataClearer.delete_routes_import_data
+        DataClearer.delete_routes_data
+      else
+        puts "Nothing happened. If you intend to clear ALL routes imports, set REALLY_CLEAR=1"
+      end
+    end
+
+    desc "clear import collections"
+    task :collections => :environment do
+      if ENV["REALLY_CLEAR"]
+        DataClearer.delete_import_collection_data
       else
         puts "Nothing happened. If you intend to clear ALL routes imports, set REALLY_CLEAR=1"
       end
@@ -85,6 +94,7 @@ namespace :import do
     task :all => :environment do
       Rake::Task['import:clear:routes'].invoke
       Rake::Task['import:clear:logs'].invoke
+      Rake::Task['import:clear:collections'].invoke
     end
   end
 
