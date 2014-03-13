@@ -9,7 +9,7 @@ class LogStartedLine < ActiveRecord::Base
   belongs_to :log_source
 
   def self.paths
-    self.pluck("path")
+    self.pluck("formatted_path")
   end
 
   def self.controllers

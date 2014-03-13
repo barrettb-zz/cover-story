@@ -2,7 +2,9 @@ class Route < ActiveRecord::Base
   include ResultsLogger
 
   belongs_to :import_collection
-  has_many :route_histories, :analyzed_route_controllers, :analyzed_route_paths
+  has_many :route_histories
+  has_many :analyzed_route_controllers
+  has_many :analyzed_route_paths
   alias_method :histories, :route_histories
 
   def active?
