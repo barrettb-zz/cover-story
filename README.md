@@ -3,7 +3,7 @@ cover-story: Code coverage dashboard (soon?)
 
 This is rough on purpose for now.  Things that are in place:
 
-#### CONFIG See config/config.yml
+#### CONFIG (config/config.yml)
 
 The config file is very important. It defines:
 - file Matchers for import
