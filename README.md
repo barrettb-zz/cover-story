@@ -1,11 +1,9 @@
-cover-story
-or
-Code coverage dashboard (soon?)
+cover-story: Code coverage dashboard (soon?)
 ===========
 
 This is rough on purpose for now.  Things that are in place:
 
-IMPORT:
+#### IMPORT:
 We will rely entirely on file drop for import.  
 
 For the file drop to work, the daemon needs to be running.  See: 
@@ -24,44 +22,44 @@ Right now the main import service funnels things downwards to the log, routes, a
 
 Upon import, the following tables get updated, important columns noted:
 
-Import Collection:
+##### Import Collection:
 import_collections: This is the core record that Logs and Meta ("revisions" for now, TBD) tie to
 
-Routes: 
+##### Routes: 
 routes (columns: path, controller - both of which are formatted)
 route_histories (activated, inactivated)
 
-Logs:
+##### Logs:
 sources aka LogSource (env, ignore, import_collection_id)
 started_lines aka LogStartedLine (formatted_path)
 processing_lines aka LogProcessingLine (controller)
 
-Meta:
+##### Meta:
 TBD, but there is a revisions table in place.
 The importer also kicks off the analysis at the end.  See ANALYSIS.
 
 
-ANALYSIS
+#### ANALYSIS
 TBD.  
 Right now we have building blocks in place for tested paths, tested controllers.
 
 
-VIEW
+#### VIEW
 TBD.
 Right now it is the ugliest, slightly misaligned graph that allows hovering over nodes in the crudest of whats.  We ONLY show the percentage covered, and may not even filter it correctly by analysis type right now.
 
 
-RAKE tools (examples):
-1.  rake import:clear:logs/routes/all
-2.  rake analyze:clear:all will clear all analysis data
-3.  rake import:logs/routes (need to specify file)
+#### RAKE tools (examples):
+- rake import:clear:logs/routes/all
+- rake analyze:clear:all will clear all analysis data
+- rake import:logs/routes (need to specify file)
 
 
-TODO:
-0. TESTS!!!! we need this around each of our specific requirements (sorry)
-1. Analysis - we just need to design this overall
-2. View - it would be nice to have a graph per analysis type to start, basically a toggle. The core graph can be shared (maybe a partial) and the data can be pulled in based on the toggle selection
-3. meta file - what do we want to expect in here
-4. general cleanup/consolidation of lib/services
-5. anything we are doing outside the app
-6. bug on importing single files: right now we reuse the most recent import collection ID. we need to generate a new one and associate all the most recent records to it
+#### TODO:
+- TESTS!!!! we need this around each of our specific requirements (sorry)
+- Analysis - we just need to design this overall
+- View - it would be nice to have a graph per analysis type to start, basically a toggle. The core graph can be shared (maybe a partial) and the data can be pulled in based on the toggle selection
+- meta file - what do we want to expect in here
+- general cleanup/consolidation of lib/services
+- anything we are doing outside the app
+- bug on importing single files: right now we reuse the most recent import collection ID. we need to generate a new one and associate all the most recent records to it
