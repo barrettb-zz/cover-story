@@ -3,6 +3,13 @@ cover-story: Code coverage dashboard (soon?)
 
 This is rough on purpose for now.  Things that are in place:
 
+#### CONFIG See config/config.yml
+
+The config file is very important. It defines:
+- file Matchers for import
+- directory locations for file import
+
+
 #### IMPORT:
 We will rely entirely on file drop for import.  
 
@@ -46,7 +53,7 @@ Right now we have building blocks in place for tested paths, tested controllers.
 
 #### VIEW
 TBD.
-Right now it is the ugliest, slightly misaligned graph that allows hovering over nodes in the crudest of whats.  We ONLY show the percentage covered, and may not even filter it correctly by analysis type right now.
+Right now it is the ugliest, slightly misaligned graph that allows hovering over nodes in the crudest of ways.  We ONLY show the percentage covered, and may not even filter it correctly by analysis type right now.
 
 
 #### RAKE tools (examples):
