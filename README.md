@@ -14,10 +14,10 @@ The config file is very important. It defines:
 We will rely entirely on file drop for import.  
 
 For the file drop to work, the daemon needs to be running.  See: 
-lib/daemons/file_import_watcher.rb.  
+- lib/daemons/file_import_watcher.rb.  
 
 You can run it with: 
-RAILS_ENV=development ruby lib/daemons/file_import_watcher.rb
+- RAILS_ENV=development ruby lib/daemons/file_import_watcher.rb
 
 The file drop uses ImportService (app/services/import_service.rb).  This service drives the importing of all accepted files:
 - log_something.log
@@ -33,13 +33,13 @@ Upon import, the following tables get updated, important columns noted:
 import_collections: This is the core record that Logs and Meta ("revisions" for now, TBD) tie to
 
 ##### Routes: 
-routes (columns: path, controller - both of which are formatted)
-route_histories (activated, inactivated)
+- routes (columns: path, controller - both of which are formatted)
+- route_histories (activated, inactivated)
 
 ##### Logs:
-sources aka LogSource (env, ignore, import_collection_id)
-started_lines aka LogStartedLine (formatted_path)
-processing_lines aka LogProcessingLine (controller)
+- sources aka LogSource (env, ignore, import_collection_id)
+- started_lines aka LogStartedLine (formatted_path)
+- processing_lines aka LogProcessingLine (controller)
 
 ##### Meta:
 TBD, but there is a revisions table in place.
