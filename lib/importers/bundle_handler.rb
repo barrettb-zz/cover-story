@@ -17,13 +17,23 @@ class BundleHandler
       zip_file.each do |entry|
         unless entry.name_is_directory?
           name = File.basename(entry.name)
-          debundle_path = "#{bundle_unzip_dir}/#{name}"
-          entry.extract(debundle_path)
-          unbundled_files.push debundle_path
+          unless system_file? name
+            debundle_path = "#{bundle_unzip_dir}/#{name}"
+            entry.extract(debundle_path)
+            unbundled_files.push debundle_path
+          end
         end
       end
     end
 
     unbundled_files
+  end
+
+private
+
+  def system_file?(name)
+    # to match something like:
+    # "._log_feature_regressions_test.log"
+    name.match(/[[:punct:]][[:punct:]]/)
   end
 end
