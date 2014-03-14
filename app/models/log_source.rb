@@ -31,6 +31,8 @@ class LogSource < ActiveRecord::Base
     self.where(env: 'production')
   end
 
+# TODO this does not work.  if we have more than one log, this will limit our scope too much.
+# needs to be any logs from latest import collection!  make sure this carries through to analysis
   def self.latest_valid_test
     import_id = ImportCollection.latest_valid.id
     test_logs = self.valid.test

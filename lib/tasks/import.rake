@@ -53,7 +53,7 @@ namespace :import do
     ris.import
     end_count = Route.count
     added_count = end_count - start_count
-    puts "Processed #{added_count} routes; Routes Import: #{RoutesImport.last.id}"
+    puts "Processed #{added_count} routes"
   end
 
   desc "import all file types (routes and logs)"

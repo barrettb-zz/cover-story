@@ -45,6 +45,7 @@ class ImportService < SimpleDelegator
   def import_routes_files
     routes_files = routes_files_from_group(@file_names)
     if routes_files.any?
+      puts "..importing routes: #{file_basenames routes_files}"
       params = { }
       # TODO seems like this should be defined elsewhere?
       params[:file_list] = routes_files
@@ -61,6 +62,7 @@ class ImportService < SimpleDelegator
   def import_log_files
     log_files = log_files_from_group(@file_names)
     if log_files.any?
+      puts "..importing logs (have patience): #{file_basenames log_files}"
       log_files_params = { }
       log_files_params[:file_list] = log_files
       # TODO seems like this should be defined elsewhere?
@@ -80,6 +82,7 @@ class ImportService < SimpleDelegator
   def import_meta_files
     meta_files = meta_files_from_group(@file_names)
     if meta_files.any?
+      puts "..importing meta files: #{file_basenames meta_files}"
       # TODO
       info = "+meta: #{file_basenames meta_files}"
       self.results << info
@@ -101,6 +104,7 @@ class ImportService < SimpleDelegator
 
   def unbundle
     if bundle_files(@file_names).any?
+      puts "..unbundling: #{file_basenames bundle_files(@file_names)}"
       @bundle_files = bundle_files(@file_names)
       bh = BundleHandler.new
       @file_names = bh.run(@file_names) # reset file names to bundle contents
