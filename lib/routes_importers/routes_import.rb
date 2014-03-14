@@ -27,9 +27,8 @@ class RoutesImport
     paths ||= Route.paths
     deactivated_routes = paths - incoming_paths
     activated_routes = incoming_paths - paths
-
     incoming_lines.each do |l|
-      if route_information_exists_in(l)
+      if route_information_exists_in_line?(l)
         path = path_from_line(l)
         if path.in?(activated_routes)
           create_route_from_line(line: l, file_name: @file_name)

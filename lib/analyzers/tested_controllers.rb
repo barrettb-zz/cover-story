@@ -1,11 +1,11 @@
-class TestedRouteControllers
+class TestedControllers
 
   def setup(params)
-    @type = params[:type] # tested_route_controllers
+    @type = params[:type] # tested_controllers
     @import = ImportCollection.latest_valid
     @route_controllers = Route.active.controllers
     @test_log = LogSource.latest_valid_test
-    @tested_controllers = @test_log.log_started_lines.controllers
+    @tested_controllers = @test_log.log_processing_lines.controllers
     true
   end
 
@@ -18,7 +18,7 @@ class TestedRouteControllers
     )
 
     @tested_controllers.uniq.each do |c|
-      AnalyzedRouteController.create(
+      AnalyzedController.create(
         analysis_id: analysis.id,
         controller: c,
         count: @tested_controllers.count(c)

@@ -26,7 +26,6 @@ module CoverStory
     config.autoload_paths << "#{Rails.root}/lib"
     config.autoload_paths << "#{Rails.root}/lib/log_fetchers"
     config.autoload_paths << "#{Rails.root}/lib/log_parser"
-    config.autoload_paths << "#{Rails.root}/lib/log_processors"
     config.autoload_paths << "#{Rails.root}/lib/routes_importers"
     config.autoload_paths << "#{Rails.root}/lib/analyzers"
 

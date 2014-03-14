@@ -6,6 +6,7 @@ class LogSource < ActiveRecord::Base
   belongs_to :import_collection
   has_many :requests, dependent: :destroy
   has_many :log_started_lines, :foreign_key => 'source_id'
+  has_many :log_processing_lines, :foreign_key => 'source_id'
 
   def self.parse_filename(filename)
     format = APP_CONFIG[:log_config][:log_file_format]

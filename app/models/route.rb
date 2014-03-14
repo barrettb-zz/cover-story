@@ -3,7 +3,6 @@ class Route < ActiveRecord::Base
 
   belongs_to :import_collection
   has_many :route_histories
-  has_many :analyzed_route_controllers
   has_many :analyzed_route_paths
   alias_method :histories, :route_histories
 
@@ -73,9 +72,5 @@ class Route < ActiveRecord::Base
 
   def self.controllers
     self.pluck('controller').uniq
-  end
-
-  def self.controller_associations
-    self.pluck('controller_association').uniq
   end
 end

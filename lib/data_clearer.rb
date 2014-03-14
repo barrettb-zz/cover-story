@@ -26,7 +26,7 @@ class DataClearer
       CompletedLine.delete_all
       FailureLine.delete_all
       ParametersLine.delete_all
-      ProcessingLine.delete_all
+      LogProcessingLine.delete_all
       RenderedLine.delete_all
       Request.delete_all
       RoutingErrorsLine.delete_all
@@ -53,7 +53,7 @@ class DataClearer
 
     def delete_analyzed_routes_data
       AnalyzedRoutePath.delete_all
-      AnalyzedRouteController.delete_all
+      AnalyzedController.delete_all
       puts "Cleared all analyzed route data (hope you didn't need this)"
     end
 

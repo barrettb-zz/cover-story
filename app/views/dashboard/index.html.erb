@@ -89,15 +89,14 @@
 			var maxDate = d3.max(dataset, function(d) { return new Date(d.date); });
 
 			var MaxPercentage = d3.max(dataset, function(d) { return d.percentage_covered; })
-			var MaxModelPercentage = d3.max(dataset, function(d) { return d.model_percentage_covered; })
-			var MaxOverallPercentage = d3.max([MaxPercentage, MaxModelPercentage])
+			var MaxOverallPercentage = d3.max([MaxPercentage])
 
 			var labels = <%= raw @tested_labels %>
 			var xAxisLabel = labels.x_axis
 			var yAxisLabel = labels.y_axis
 
 			// Define the padding around the graph
-			var padding = 50;
+			var padding = 100;
 
 			var xScale = d3.time.scale()
 			    .domain([minDate, maxDate])
@@ -144,17 +143,6 @@
 
 			svg.append("svg:path").attr("d", line(dataset));
 
-			// draw line graph 2
-			var line2 = d3.svg.line()
-			    .x(function(d) {
-			        return xScale(new Date(d.date));
-			    })
-			    .y(function(d) {
-			        return yScale(d.model_percentage_covered);
-			    });
-
-			svg.append("svg:path").attr("d", line2(dataset));
-
 			// plot circles with mouseover
 			svg.selectAll("circle")
 			    .data(dataset)
@@ -174,26 +162,6 @@
 				d3.select(".infobox").style("display", "block");
 				d3.select("p").text(d.percentage_covered+"%");
 			}
-
-			svg.selectAll("circle2")
-			    .data(dataset)
-			    .enter()
-			    .append("circle")
-			    .attr("class", "data-point2")
-			    .attr("cx", function(d) {
-			        return xScale(new Date(d.date));
-			    })
-			    .attr("cy", function(d) {
-			        return yScale(d.model_percentage_covered);
-			    })
-			    .attr("r", 2)
-				.on("mousemove", mousemove2);
-
-			function mousemove2(d, i) {
-				d3.select(".infobox").style("display", "block");
-				d3.select("p").text(d.model_percentage_covered+"%");
-			}
-
 
 			// x-axis label
 			svg.append("text")

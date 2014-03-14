@@ -88,7 +88,7 @@ class ImportService < SimpleDelegator
   end
 
   def analyze
-    analysis_types = ["tested_route_paths"]
+    analysis_types = ["tested_route_paths", "tested_controllers"]
 
     analysis_types.each do |type|
       LogAnalysisService.new(type: type).analyze

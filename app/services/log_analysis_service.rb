@@ -8,6 +8,8 @@ class LogAnalysisService < SimpleDelegator
     case type
     when "tested_route_paths"
       super(TestedRoutePaths.new)
+    when "tested_controllers"
+      super(TestedControllers.new)
     else
       raise "unsupported analysis_type: #{type}"
     end

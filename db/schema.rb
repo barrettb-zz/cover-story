@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313090436) do
+ActiveRecord::Schema.define(version: 20140313224856) do
 
   create_table "analyses", force: true do |t|
     t.decimal  "percentage_covered",   precision: 10, scale: 0
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20140313090436) do
     t.integer  "import_collection_id"
   end
 
-  create_table "analyzed_route_controllers", force: true do |t|
+  create_table "analyzed_controllers", force: true do |t|
     t.integer  "analysis_id"
     t.string   "controller"
     t.integer  "count"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140313090436) do
     t.datetime "updated_at"
   end
 
-  add_index "analyzed_route_controllers", ["analysis_id"], name: "index_analyzed_route_controllers_on_analysis_id", using: :btree
+  add_index "analyzed_controllers", ["analysis_id"], name: "index_analyzed_controllers_on_analysis_id", using: :btree
 
   create_table "analyzed_route_paths", force: true do |t|
     t.integer  "analysis_id"
@@ -135,7 +135,6 @@ ActiveRecord::Schema.define(version: 20140313090436) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "path"
-    t.string   "controller_association"
     t.boolean  "inactive"
     t.string   "source"
   end
@@ -175,7 +174,6 @@ ActiveRecord::Schema.define(version: 20140313090436) do
     t.string   "ip"
     t.datetime "timestamp"
     t.string   "formatted_path"
-    t.string   "model"
   end
 
   add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id", using: :btree

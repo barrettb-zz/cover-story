@@ -4,20 +4,18 @@ module RoutesFileLines
   def create_route_from_line(params)
     line = params[:line]
     file_name = params[:file_name]
-    preformatted_path = preformatted_path_from_line(line)
     path = path_from_line(line)
     route = Route.create(
       method:                 method_from_line(line),
       controller:             controller_from_line(line),
       action:                 action_from_line(line),
       path:                   path,
-      controller_association: PathProcessor.extract_controller_from_path(path),
       source:                 File.basename(file_name)
     )
 
     route.add_history :active
     route.histories.last.update_attributes(
-      preformatted_path:    preformatted_path,
+      preformatted_path:    preformatted_path_from_line(line),
       name:                 name_from_line(line),
       original_route_info:  original_route_info(line)
     )
@@ -25,9 +23,8 @@ module RoutesFileLines
 
 private
 
-  def route_information_exists_in(line)
+  def route_information_exists_in_line?(line)
     if route_is_root(line)
-      output_and_log_info("!cannot process route file line: #{line}")
       return false
     end
     segments = split_line_into_segments(line)
@@ -85,9 +82,9 @@ private
   end
 
   def path_from_line(line)
-    return unless route_information_exists_in(line)
+    return unless route_information_exists_in_line?(line)
     p = preformatted_path_from_line(line)
-    p.gsub(/\/:(.*?)_id/, "/:id").strip
+    PathProcessor.format_route_path(p)
   end
 
   def action_from_line(line)
@@ -99,7 +96,8 @@ private
   def controller_from_line(line)
     segments = split_line_into_segments(line)
     compiled_route = segments.find { |e| /#/ =~ e }.split("#")
-    compiled_route[0]
+    c = compiled_route[0]
+    PathProcessor.format_route_controller(c)
   end
 
   def original_route_info(line)
