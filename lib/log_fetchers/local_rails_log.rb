@@ -24,13 +24,8 @@ class LocalRailsLog
         
         LogSource.parse_filename(file)
 # TODO we need to pull this out and do it somehow for all log files, not just local rails
-        PathProcessor.format_latest_log_paths
-
-# as with the above we need to pull this out and think it through.
-# Right now we are just associating each file with the last ImportCollection,
-# but what if someone just runs LogService.. you will overright the previous entry,
-# since no new one will be created.
-# either think this through or protect against it.
+        Formatter.format_latest_log_paths
+        Formatter.add_application_to_latest_log
         ic = ImportCollection.last
         ic.log_sources << LogSource.where(filename: file).last
       end

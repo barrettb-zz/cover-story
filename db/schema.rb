@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313224856) do
+ActiveRecord::Schema.define(version: 20140317065541) do
 
   create_table "analyses", force: true do |t|
     t.decimal  "percentage_covered",   precision: 10, scale: 0
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140313224856) do
 
   add_index "analyzed_controllers", ["analysis_id"], name: "index_analyzed_controllers_on_analysis_id", using: :btree
 
-  create_table "analyzed_route_paths", force: true do |t|
+  create_table "analyzed_paths", force: true do |t|
     t.integer  "analysis_id"
     t.text     "path"
     t.integer  "count"
@@ -136,7 +136,8 @@ ActiveRecord::Schema.define(version: 20140313224856) do
     t.datetime "updated_at"
     t.text     "path"
     t.boolean  "inactive"
-    t.string   "source"
+    t.string   "filename"
+    t.string   "application"
   end
 
   create_table "routing_errors_lines", force: true do |t|
@@ -158,6 +159,7 @@ ActiveRecord::Schema.define(version: 20140313224856) do
     t.string   "env"
     t.boolean  "ignore"
     t.integer  "import_collection_id"
+    t.string   "application"
   end
 
   add_index "sources", ["env"], name: "index_sources_on_env", using: :btree

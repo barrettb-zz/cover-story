@@ -5,12 +5,14 @@ module RoutesFileLines
     line = params[:line]
     file_name = params[:file_name]
     path = path_from_line(line)
+    filename = File.basename(file_name)
     route = Route.create(
       method:                 method_from_line(line),
       controller:             controller_from_line(line),
       action:                 action_from_line(line),
       path:                   path,
-      source:                 File.basename(file_name)
+      filename:               filename,
+      application:            Formatter.application_from_filename(filename)
     )
 
     route.add_history :active
@@ -84,7 +86,7 @@ private
   def path_from_line(line)
     return unless route_information_exists_in_line?(line)
     p = preformatted_path_from_line(line)
-    PathProcessor.format_route_path(p)
+    Formatter.format_route_path(p)
   end
 
   def action_from_line(line)
@@ -97,7 +99,7 @@ private
     segments = split_line_into_segments(line)
     compiled_route = segments.find { |e| /#/ =~ e }.split("#")
     c = compiled_route[0]
-    PathProcessor.format_route_controller(c)
+    Formatter.format_route_controller(c)
   end
 
   def original_route_info(line)

@@ -52,7 +52,7 @@ class DataClearer
     end
 
     def delete_analyzed_routes_data
-      AnalyzedRoutePath.delete_all
+      AnalyzedPath.delete_all
       AnalyzedController.delete_all
       puts "Cleared all analyzed route data (hope you didn't need this)"
     end

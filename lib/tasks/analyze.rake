@@ -6,7 +6,7 @@ namespace :analyze do
 
   desc "tested routes, generates data in analyses"
   task :tested => :environment do
-    las = LogAnalysisService.new(
+    las = AnalysisService.new(
       analysis_type: "route_diff",
       diff_type: "tested_routes"
     )

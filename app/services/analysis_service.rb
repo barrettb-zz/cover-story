@@ -1,4 +1,4 @@
-class LogAnalysisService < SimpleDelegator
+class AnalysisService < SimpleDelegator
   attr_reader :analysis_options
 
   def initialize(params)
@@ -6,8 +6,8 @@ class LogAnalysisService < SimpleDelegator
     type = params[:type]
 
     case type
-    when "tested_route_paths"
-      super(TestedRoutePaths.new)
+    when "tested_paths"
+      super(TestedPaths.new)
     when "tested_controllers"
       super(TestedControllers.new)
     else

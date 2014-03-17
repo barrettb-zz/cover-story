@@ -4,8 +4,13 @@ class TestedControllers
     @type = params[:type] # tested_controllers
     @import = ImportCollection.latest_valid
     @route_controllers = Route.active.controllers
-    @test_log = LogSource.latest_valid_test
-    @tested_controllers = @test_log.log_processing_lines.controllers
+    @test_logs = @import.log_sources.test
+
+    @tested_controllers = [ ]
+    @test_logs.each do |l|
+      l.log_processing_lines.controllers.each {|p| @tested_controllers << p }
+    end
+
     true
   end
 

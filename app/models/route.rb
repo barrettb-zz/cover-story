@@ -3,7 +3,7 @@ class Route < ActiveRecord::Base
 
   belongs_to :import_collection
   has_many :route_histories
-  has_many :analyzed_route_paths
+  has_many :analyzed_paths
   alias_method :histories, :route_histories
 
   def active?
@@ -56,6 +56,10 @@ class Route < ActiveRecord::Base
     when :inactive
       histories << RouteHistory.new(inactivated: true)
     end
+  end
+
+  def application
+    Formatter.application_from_filename(self.filename)
   end
 
   def self.inactive

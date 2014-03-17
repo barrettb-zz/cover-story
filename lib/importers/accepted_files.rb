@@ -20,6 +20,10 @@ module AcceptedFiles
     APP_CONFIG[:log_config][:environments].split(", ")
   end
 
+  def accepted_applications
+    APP_CONFIG[:applications].split(', ')
+  end
+
   def accepted_file?(file_name)
     accepted_file_types.each do |type|
       return true if file_name.match type
@@ -36,6 +40,7 @@ module AcceptedFiles
       # TODO: ths is redundant with the above format check.
       #   need to discuss best practice here
       ensure_log_file_includes_environment_in_name(f)
+      ensure_file_includes_application_in_name(f)
     end
   end
 
@@ -64,6 +69,22 @@ module AcceptedFiles
     end
   end
 
+  def ensure_file_includes_application_in_name(file_name)
+    return unless file_type(file_name) == :log
+
+    # convert to regex and compare
+    line = ''
+    accepted_applications.each do |a|
+      line << a
+      line << '|'
+    end
+    matcher = Regexp.new line.chomp('|')
+
+    unless file_name.match(matcher)
+      raise "Route/Log filename needs to specify application. Applications: #{accepted_applications}"
+    end
+  end
+
   def file_type(file_name)
     accepted_file_types.each do |type|
       return type.gsub(/[[:punct:]]/, '').to_sym if file_name.match type
@@ -89,5 +110,4 @@ module AcceptedFiles
       File.delete(fn) if !File.directory?(fn)
     end
   end
-
 end

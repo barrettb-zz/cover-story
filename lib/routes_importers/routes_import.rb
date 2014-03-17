@@ -3,6 +3,7 @@
 
 class RoutesImport
   include RoutesFileLines
+  include AcceptedFiles
 
   def setup(params)
     @config = APP_CONFIG[:routes_config]
@@ -11,6 +12,7 @@ class RoutesImport
   end
 
   def fetch
+    ensure_file_includes_application_in_name File.basename(@file_path)
     @tmp_routes_file = File.read(@file_path)
     true
   end

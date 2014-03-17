@@ -8,6 +8,10 @@ class LogSource < ActiveRecord::Base
   has_many :log_started_lines, :foreign_key => 'source_id'
   has_many :log_processing_lines, :foreign_key => 'source_id'
 
+  def application
+    Formatter.application_from_filename(self.filename)
+  end
+
   def self.parse_filename(filename)
     format = APP_CONFIG[:log_config][:log_file_format]
     format_regexp = Regexp.new format
@@ -29,16 +33,5 @@ class LogSource < ActiveRecord::Base
 
   def self.production
     self.where(env: 'production')
-  end
-
-# TODO this does not work.  if we have more than one log, this will limit our scope too much.
-# needs to be any logs from latest import collection!  make sure this carries through to analysis
-  def self.latest_valid_test
-    import_id = ImportCollection.latest_valid.id
-    test_logs = self.valid.test
-    valids = test_logs.where(import_collection_id: import_id)
-    # TODO logger
-    raise "No valid test logs" unless valids.last
-    valids.last
   end
 end
