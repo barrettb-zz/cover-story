@@ -80,9 +80,7 @@ Right now it is the ugliest, slightly misaligned graph that allows hovering over
 
 #### TODO:
 - TESTS!!!! we need this around each of our specific requirements (sorry)
-- Analysis - we just need to design this overall
 - View - it would be nice to have a graph per analysis type to start, basically a toggle. The core graph can be shared (maybe a partial) and the data can be pulled in based on the toggle selection
 - meta file - what do we want to expect in here
 - general cleanup/consolidation of lib/services
 - anything we are doing outside the app
-- bug on importing single files: right now we reuse the most recent import collection ID. we need to generate a new one and associate all the most recent records to it
