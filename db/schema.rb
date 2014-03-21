@@ -11,32 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317065541) do
+ActiveRecord::Schema.define(version: 20140321001557) do
 
   create_table "analyses", force: true do |t|
-    t.decimal  "percentage_covered",   precision: 10, scale: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "analysis_type"
     t.integer  "import_collection_id"
-  end
-
-  create_table "analyzed_controllers", force: true do |t|
-    t.integer  "analysis_id"
-    t.string   "controller"
-    t.integer  "count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "analyzed_controllers", ["analysis_id"], name: "index_analyzed_controllers_on_analysis_id", using: :btree
-
-  create_table "analyzed_paths", force: true do |t|
-    t.integer  "analysis_id"
-    t.text     "path"
-    t.integer  "count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "application"
+    t.decimal  "tested_controllers_percentage",               precision: 6, scale: 3
+    t.decimal  "tested_paths_percentage",                     precision: 6, scale: 3
+    t.decimal  "used_controllers_percentage",                 precision: 6, scale: 3
+    t.decimal  "used_paths_percentage",                       precision: 6, scale: 3
+    t.decimal  "tested_used_controllers_percentage",          precision: 6, scale: 3
+    t.decimal  "tested_used_paths_percentage",                precision: 6, scale: 3
+    t.decimal  "used_controllers_percentage_all_time",        precision: 6, scale: 3
+    t.decimal  "used_paths_percentage_all_time",              precision: 6, scale: 3
+    t.decimal  "tested_used_controllers_percentage_all_time", precision: 6, scale: 3
+    t.decimal  "tested_used_paths_percentage_all_time",       precision: 6, scale: 3
   end
 
   create_table "completed_lines", force: true do |t|
@@ -93,6 +84,22 @@ ActiveRecord::Schema.define(version: 20140317065541) do
 
   add_index "processing_lines", ["request_id"], name: "index_processing_lines_on_request_id", using: :btree
   add_index "processing_lines", ["source_id"], name: "index_processing_lines_on_source_id", using: :btree
+
+  create_table "production_controllers", force: true do |t|
+    t.integer  "analysis_id"
+    t.string   "controller"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "production_paths", force: true do |t|
+    t.integer  "analysis_id"
+    t.string   "path"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "rendered_lines", force: true do |t|
     t.integer "request_id"
@@ -180,6 +187,24 @@ ActiveRecord::Schema.define(version: 20140317065541) do
 
   add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id", using: :btree
   add_index "started_lines", ["source_id"], name: "index_started_lines_on_source_id", using: :btree
+
+  create_table "tested_controllers", force: true do |t|
+    t.integer  "analysis_id"
+    t.string   "controller"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tested_controllers", ["analysis_id"], name: "index_tested_controllers_on_analysis_id", using: :btree
+
+  create_table "tested_paths", force: true do |t|
+    t.integer  "analysis_id"
+    t.text     "path"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "warnings", force: true do |t|
     t.string  "warning_type", limit: 30, null: false

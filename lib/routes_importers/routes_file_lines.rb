@@ -30,8 +30,7 @@ private
       return false
     end
     segments = split_line_into_segments(line)
-    if segments[0] == "\/"
-      output_and_log_info("!cannot process route file line: #{line}")
+    if segments[0] == "\/" # do nothing with missing info
       return false
     end
     return true if segments.find { |e| /#/ =~ e }

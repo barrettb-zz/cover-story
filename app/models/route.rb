@@ -3,7 +3,6 @@ class Route < ActiveRecord::Base
 
   belongs_to :import_collection
   has_many :route_histories
-  has_many :analyzed_paths
   alias_method :histories, :route_histories
 
   def active?

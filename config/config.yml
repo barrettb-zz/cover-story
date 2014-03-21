@@ -14,6 +14,7 @@ defaults: &defaults
     :routes_path_prefix: "/hr"
     :routes_path_prefix_file_matcher: "hr_suite"
   :analysis_config:
+    :import_defaults: "log"
     :tested_title: "Tested Routes"
     :tested_x_axis_label: "Test Run"
     :tested_y_axis_label: "Coverage Percentage"

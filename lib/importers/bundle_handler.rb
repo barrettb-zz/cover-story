@@ -34,6 +34,7 @@ private
   def system_file?(name)
     # to match something like:
     # "._log_feature_regressions_test.log"
-    name.match(/[[:punct:]][[:punct:]]/)
+    # ".DS_Store"
+    name.starts_with?('.') || name.match(/[[:punct:]][[:punct:]]/)
   end
 end

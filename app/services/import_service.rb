@@ -31,6 +31,7 @@ class ImportService < SimpleDelegator
   rescue StandardError => e
     message = "!error in importing files. See log. #{file_basenames @file_names}"
     output_and_log_error(message, e)
+    self.results = "\n!something went wrong; likely nothing processed. See log\n\n"
   end
 
   def create_import_collection_record
@@ -91,8 +92,8 @@ class ImportService < SimpleDelegator
   end
 
   def analyze
-    analysis_types = ["tested_paths", "tested_controllers"]
-
+    analysis_config = APP_CONFIG[:analysis_config]
+    analysis_types = analysis_config[:import_defaults].gsub(' ', '').split(',')
     analysis_types.each do |type|
       AnalysisService.new(type: type).analyze
     end

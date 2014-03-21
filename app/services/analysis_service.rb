@@ -4,16 +4,11 @@ class AnalysisService < SimpleDelegator
   def initialize(params)
     params.assert_valid_keys :type
     type = params[:type]
+    params[:import] = ImportCollection.latest_valid
 
-    case type
-    when "tested_paths"
-      super(TestedPaths.new)
-    when "tested_controllers"
-      super(TestedControllers.new)
-    else
-      raise "unsupported analysis_type: #{type}"
-    end
+    klass = "#{type.singularize.classify}Analyzer".constantize
+    super(klass.new)
 
-    self.setup(params)
+    raise "Could not process analysis: #{type}" unless self.setup(params)
   end
 end

@@ -34,4 +34,12 @@ class LogSource < ActiveRecord::Base
   def self.production
     self.where(env: 'production')
   end
+
+  def test?
+    self.env == "test"
+  end
+
+  def production?
+    self.env == "production"
+  end
 end
