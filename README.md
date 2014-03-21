@@ -37,9 +37,9 @@ import_collections: This is the core record that Logs and Meta ("revisions" for 
 - route_histories (activated, inactivated)
 
 ##### Logs:
-- sources aka LogSource (env, ignore, import_collection_id)
-- started_lines aka LogStartedLine (formatted_path)
-- processing_lines aka LogProcessingLine (controller)
+- sources aka LogSource (env, ignore, import collection id)
+- started_lines aka LogStartedLine (formatted path)
+- processing lines aka LogProcessingLine (controller)
 
 ##### Meta:
 TBD, but there is a revisions table in place.
@@ -47,9 +47,25 @@ The importer also kicks off the analysis at the end.  See ANALYSIS.
 
 
 #### ANALYSIS
-TBD.  
-Right now we have building blocks in place for tested paths, tested controllers.
+Analysis happens automatically after a file import. Each import generates a single Analysis record per log file (usually one per application). An analysis record stores (see model/analysis, lib/analyzers/calculator):
+- associated import collection id
+- application (hr suite, applicant portal, employee portal, defined in config.yml)
+- tested controllers percentage
+- tested paths percentage
+- used controllers percentage
+- used paths percentage
+- tested used controllers percentage
+- tested used paths percentage
+- used controllers percentage all time
+- used paths percentage all time
+- tested used controllers percentage all time
+- tested used paths percentage all time
 
+we can also pull:
+- untested_paths
+- untested controllers
+- untested used paths
+- untested used controllers
 
 #### VIEW
 TBD.
