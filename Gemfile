@@ -12,6 +12,7 @@ gem 'daemons-rails'
 gem 'listen', '~> 2.0'
 gem "d3-rails"
 gem 'rubyzip'
+gem 'googlecharts'
 
 # Gems used only for assets and not required
 # in production environments by default.

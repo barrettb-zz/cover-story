@@ -1,185 +1,25 @@
-<%# borrowed from: http://bl.ocks.org/benjchristensen/2579619 %>
-<%# http://jsfiddle.net/wRDXt/2/ %>
-<%# commenting out all the rightaxis code until needed %>
+  <%= form_tag("/", method: "get") do %>
 
-<html>
-	<head>
-		<title>Test Coverage</title>
-		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	</head>
-	<style>
-		* {
-		    padding: 0;
-		    margin: 0;
-		}
+	<table>
+      <tr>
+	    <td> Application </td>
+	    <td> <%= select_tag :application, options_for_select(@applications, params[:application]),
+	       prompt: '...' %> </td>
+	  </tr>
+	  <tr>
+	    <td> Calculation </td>
+	    <td> <%= select_tag :calculation, options_for_select(@calculations, params[:calculation]),
+	       prompt: '...' %> </td>
+	  </tr>
+	</table>
 
-		html, body {
-		    height: 100%;
-		}
+    <p> <%= submit_tag("Generate fun") %> </p>
+	<% unless params[:application].to_s.empty? || params[:calculation].to_s.empty? %>
+      <% @dataset = percentage_data(params[:application], params[:calculation]) %>
+      <% @title = "#{params[:application].titleize} - #{params[:calculation].titleize}" %>
+      <%= render partial: 'main_graph', locals: {dataset: @dataset, title: @title}  %>
+	  <%= render partial: 'tested_list', locals: { app: params[:application], calc: params[:calculation] } %>
+	  <%= render partial: 'untested_list', locals: { app: params[:application], calc: params[:calculation] } %>
+   <% end %>
 
-		path {
-		    fill: none;
-		    stroke: black;
-		}
-
-		svg {
-		    display: block;
-		    width: 100%;
-		    height: 100%;
-		}
-
-		.data-point {
-		    stroke: blue;
-		    stroke-width: 1.5px;
-		    fill: white;
-		}
-
-		.data-point2 {
-		    stroke: orange;
-		    stroke-width: 1.5px;
-		    fill: white;
-		}
-
-		.data-point-text {
-		    font-family: sans-serif;
-		    font-size: 11px;
-		    fill: red;
-		}
-
-		.axis path,
-		.axis line {
-		    fill: none;
-		    stroke: black;
-		}
-
-		.axis text {
-		    font-family: sans-serif;
-		    font-size: 11px;
-		}
-
-		.infobox {
-		        position: absolute;
-		        width: 200px;
-		        padding: 10px;
-		        background-color: rgba(255,255,255,.75);
-		}
-	</style>
-	<body>
-
-		<div class="infobox">
-			<p></p>
-		</div>
-
-		<script>
-
-			// Define the resolution
-			var width = 900;
-			var height = 400;
-
-			// Create the SVG 'canvas' (aka the graph)
-			var svg = d3.select("body")
-			    .append("svg")
-			    .attr("viewBox", "0 0 " + width + " " + height);
-
-			// get the data
-			var dataset = <%= raw @tested_results %>;
-
-			// Set the scales
-			var minDate = d3.min(dataset, function(d) { return new Date(d.date); });
-			var maxDate = d3.max(dataset, function(d) { return new Date(d.date); });
-
-			var MaxPercentage = d3.max(dataset, function(d) { return d.percentage_covered; })
-			var MaxOverallPercentage = d3.max([MaxPercentage])
-
-			var labels = <%= raw @tested_labels %>
-			var xAxisLabel = labels.x_axis
-			var yAxisLabel = labels.y_axis
-
-			// Define the padding around the graph
-			var padding = 100;
-
-			var xScale = d3.time.scale()
-			    .domain([minDate, maxDate])
-			    .range([padding, width - padding]);
-
-			var yScale = d3.scale.linear()
-			    .domain([0, MaxOverallPercentage + 2])
-			    .range([height - padding, padding]);
-
-			// x-axis
-			var format = d3.time.format("%d %b");
-			var xAxis = d3.svg.axis()
-			    .scale(xScale)
-			    .orient("bottom")
-			    .tickFormat(format)
-			    .ticks(d3.time.day, 1);
-
-			svg.append("g")
-			    .attr("class", "axis x-axis")
-			    .attr("transform", "translate(0," + (height - padding) + ")")
-			    .call(xAxis);
-
-			// y-axis
-			var yAxis = d3.svg.axis()
-			    .scale(yScale)
-			    .orient("left")
-			    .tickFormat(function (d) { return d; })
-			    .tickSize(5, 5, 0)
-			    .ticks(5); // set rough # of ticks
-
-			svg.append("g")
-			    .attr("class", "axis y-axis")
-			    .attr("transform", "translate(" + padding + ",0)")
-			    .call(yAxis);
-
-			// draw line graph
-			var line = d3.svg.line()
-			    .x(function(d) {
-			        return xScale(new Date(d.date));
-			    })
-			    .y(function(d) {
-			        return yScale(d.percentage_covered);
-			    });
-
-			svg.append("svg:path").attr("d", line(dataset));
-
-			// plot circles with mouseover
-			svg.selectAll("circle")
-			    .data(dataset)
-			    .enter()
-			    .append("circle")
-			    .attr("class", "data-point")
-			    .attr("cx", function(d) {
-			        return xScale(new Date(d.date));
-			    })
-			    .attr("cy", function(d) {
-			        return yScale(d.percentage_covered);
-			    })
-			    .attr("r", 2)
-				.on("mousemove", mousemove1);
-
-			function mousemove1(d, i) {
-				d3.select(".infobox").style("display", "block");
-				d3.select("p").text(d.percentage_covered+"%");
-			}
-
-			// x-axis label
-			svg.append("text")
-			    .attr("class", "x label")
-			    .attr("text-anchor", "end")
-			    .attr("x", width)
-			    .attr("y", height-6)
-			    .text(xAxisLabel);
-
-			// y-axis label
-			svg.append("text")
-			    .attr("class", "y label")
-			    .attr("text-anchor", "end")
-			    .attr("y", 6)
-			    .attr("dy", ".75em")
-			    .attr("transform", "rotate(-90)")
-			    .text(yAxisLabel)
-
-	  </script>
-	</body>
-</html>
+  <%end%>

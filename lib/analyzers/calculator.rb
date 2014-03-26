@@ -57,6 +57,32 @@ module Calculator
     unique_percentage(used_tested, used)
   end
 
+  def untested_paths
+    routes = Route.where(application: self.application).active.paths.uniq
+    tested = self.tested_paths.pluck("path").uniq
+    (routes - tested).uniq
+  end
+
+  def untested_controllers
+    routes = Route.where(application: self.application).active.controllers.uniq
+    tested = self.tested_controllers.pluck("controller").uniq
+    (routes - tested).uniq
+  end
+
+  def untested_used_paths
+    tested = self.tested_paths.pluck("path").uniq
+    used = self.production_paths.pluck("path").uniq
+    used_tested = (used & tested).uniq
+    (used - used_tested).uniq
+  end
+
+  def untested_used_controllers
+    tested = self.tested_controllers.pluck("controller").uniq
+    used = self.production_controllers.pluck("controller").uniq
+    used_tested = (used & tested).uniq
+    (used - used_tested).uniq
+  end
+
 private
 
   def unique_percentage(compare_array, total_array)
