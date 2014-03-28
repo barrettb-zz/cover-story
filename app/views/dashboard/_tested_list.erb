@@ -1,19 +1,25 @@
 <% list_method = "#{calc.gsub('percentage', '').chomp('_')}" %>
 <% list_content_type = list_content(list_method) # controller, path %>
-<% if show_tested_list?(list_method) %>
-  <% list_latest = Analysis.valid.where(application: app).last.send(list_method) %>
 
-  <table>
-	<tr>
-	  <th> <%= "Latest #{list_method.titleize} (#{list_latest.count})" %></th>
-	  <th> <%= "Count" %></th>
-    </tr>
-    <% list_latest.each do |c| %>
-	  <tr>
-		<td><%= c.send(list_content_type) %></td>
-		<td><%= c.count %></td>
-      </tr>
+<% if show_tested_list?(list_method) %>
+
+  <% if Analysis.has_test_data?(app) %>
+
+	  <% list_latest = Analysis.valid.where(application: app).last.send(list_method) %>
+
+	  <table>
+			<tr>
+				<th> <%= "Latest #{list_method.titleize} (#{list_latest.count})" %></th>
+				<th> <%= "Count" %></th>
+	    </tr>
+	    <% list_latest.each do |c| %>
+				<tr>
+					<td><%= c.send(list_content_type) %></td>
+					<td><%= c.count %></td>
+				</tr>
+			<% end %>
+	  </table>
+
 	<% end %>
-  </table>
 
 <% end %>

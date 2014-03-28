@@ -1,43 +1,47 @@
-  <p> Drop files at: <b><%=APP_CONFIG[:file_drop_dir]%></b></p>
+<p> You can import/drop files at: <b><%=APP_CONFIG[:file_drop_dir]%></b></p>
 
-  <% unless Analysis.any? %>
+<% unless Analysis.any? %>
 
-    <p>...and STOP. There are no Analysis records.
+	<p>
+		...and STOP. There are no Analysis records.
 		If you try to generate fun, <b>the system will crash</b>,
 		so we are preventing any action until this is fixed.
 	</p>
 
-  <% else %>
+<% else %>
 
-	  <%= form_tag("/", method: "get") do %>
+	<%= form_tag("/", method: "get") do %>
 
 		<table>
-	      <tr>
-		    <td> Application </td>
-		    <td> <%= select_tag :application, options_for_select(@applications, params[:application]),
-		       prompt: '...' %> </td>
-		  </tr>
-		  <tr>
-		    <td> Calculation </td>
-		    <td> <%= select_tag :calculation, options_for_select(@calculations, params[:calculation]),
-		       prompt: '...' %> </td>
-		  </tr>
+			<tr>
+				<td> Application </td>
+				<td> <%= select_tag :application,
+					options_for_select(@applications, params[:application]),
+					prompt: '...' %>
+				</td>
+			</tr>
+			<tr>
+				<td> Calculation </td>
+				<td> <%= select_tag :calculation,
+					options_for_select(@calculations, params[:calculation]),
+					prompt: '...' %> </td>
+			</tr>
 		</table>
 
-	    <p> <%= submit_tag("Generate fun") %> </p>
+		<p> <%= submit_tag("Generate fun") %> </p>
 
 		<% unless params[:application].to_s.empty? || params[:calculation].to_s.empty? %>
 
-		  <% raise 'There are no Analysis records' unless Analysis.valid.any? %>
-	      <% @dataset = percentage_data(params[:application], params[:calculation]) %>
-	      <% @title = "#{params[:application].titleize} - #{params[:calculation].titleize}" %>
-	      <%= render partial: 'main_graph', locals: {
-			dataset: @dataset, title: @title}  %>
-		  <%= render partial: 'tested_list', locals: {
-			app: params[:application], calc: params[:calculation] } %>
+			<% raise 'There are no Analysis records' unless Analysis.valid.any? %>
+			<% @dataset = percentage_data(params[:application], params[:calculation]) %>
+			<% @title = "#{params[:application].titleize} - #{params[:calculation].titleize}" %>
+			<%= render partial: 'main_graph', locals: {
+				dataset: @dataset, title: @title }  %>
+			<%= render partial: 'tested_list', locals: {
+				app: params[:application], calc: params[:calculation] } %>
 		  <%= render partial: 'untested_list', locals: {
-			app: params[:application], calc: params[:calculation] } %>
+				app: params[:application], calc: params[:calculation] } %>
 
-	   <% end %>
-    <% end %>
-  <% end %>
+	 <% end %>
+	<% end %>
+<% end %>

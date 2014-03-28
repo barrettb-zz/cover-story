@@ -1,26 +1,33 @@
 <head>
 
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript">
+	<% if dataset.count > 1 # only header info %>
 
-    var d = <%= raw dataset %>;
-    var t = '<%= title %>';
+	  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	  <script type="text/javascript">
 
-	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
-	function drawChart() {
+	    var d = <%= raw dataset %>;
+	    var t = '<%= title %>';
 
-	  var data = google.visualization.arrayToDataTable(d);
+			google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawChart);
+			function drawChart() {
 
-	  var options = {
-	    title: t
-	  };
+				var data = google.visualization.arrayToDataTable(d);
 
-	  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-	  chart.draw(data, options);
-	}
+				var options = {
+					title: t
+				};
 
-  </script>
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				chart.draw(data, options);
+			}
+
+	  </script>
+
+	<% else %>
+		<%= "No data exists matching selection.  Import some and have a nice day." %>
+	<% end %>
+
 </head>
 <body>
   <div id="chart_div" style="width: 900px; height: 500px;"></div>
