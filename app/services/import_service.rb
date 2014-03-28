@@ -40,9 +40,6 @@ class ImportService < SimpleDelegator
     @import_collection_id = ic.id
   end
 
-# TODO figure out a way to organize all the below,
-# in way that is consistent with the delegate model
-# perhaps
   def import_routes_files
     routes_files = routes_files_from_group(@file_names)
     if routes_files.any?
@@ -57,6 +54,11 @@ class ImportService < SimpleDelegator
       info = "+routes: #{file_basenames routes_files}"
       self.results << info
       logger.info info
+    end
+
+    # ensure at least some route files are present
+    unless Route.active.any?
+      raise "!no active routes. Import some"
     end
   end
 
@@ -92,13 +94,19 @@ class ImportService < SimpleDelegator
   end
 
   def analyze
-    analysis_config = APP_CONFIG[:analysis_config]
-    analysis_types = analysis_config[:import_defaults].gsub(' ', '').split(',')
-    analysis_types.each do |type|
-      AnalysisService.new(type: type).analyze
+    log_files = log_files_from_group(@file_names)
+
+    if log_files.any?
+      analysis_config = APP_CONFIG[:analysis_config]
+      analysis_types = analysis_config[:import_defaults].gsub(' ', '').split(',')
+      analysis_types.each do |type|
+        AnalysisService.new(type: type).analyze
+      end
+      info = "+analysis: #{analysis_types}"
+    else
+      info = ".no analysis run (no logs included in import)"
     end
 
-    info = "+analysis: #{analysis_types}"
     self.results << info
     logger.info info
   end

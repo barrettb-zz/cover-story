@@ -10,6 +10,14 @@ The config file is very important. It defines:
 - directory locations for file import
 
 
+#### SCOPING:
+By default only valid (active/not ignored) ImportCollections and
+Analysis records will show. Rails default scoping has been set at
+the model level.  An Analysis record's validity is tied to the
+ImportCollection it belongs to.  The short: if you tag something to
+be ignored, it will behave as if deleted unless you apply unscoped
+
+
 #### IMPORT:
 We will rely entirely on file drop for import.  
 
@@ -19,18 +27,24 @@ For the file drop to work, the daemon needs to be running.  See:
 You can run it with: 
 - RAILS_ENV=development ruby lib/daemons/file_import_watcher.rb
 
-The file drop uses ImportService (app/services/import_service.rb).  This service drives the importing of all accepted files:
+The file drop uses ImportService (app/services/import_service.rb).
+This service drives the importing of all accepted files:
 - log_something.log
 - routes_something.txt
 - meta_something.txt
 - something.zip (the zip file MUST contain at least one of each of the above)
 
-Right now the main import service funnels things downwards to the log, routes, and (not implemented yet) meta file import services.  Whether or not we consolidate all this into a single service and push the rest down to /lib is TBD.  /lib definitely needs to be organized a bit better and in perpetual progress.
+Right now the main import service funnels things downwards to the log,
+routes, and (not implemented yet) meta file import services.  Whether
+or not we consolidate all this into a single service and push the rest
+down to /lib is TBD.  /lib definitely needs to be organized a bit better
+and in perpetual progress.
 
 Upon import, the following tables get updated, important columns noted:
 
 ##### Import Collection:
-import_collections: This is the core record that Logs and Meta ("revisions" for now, TBD) tie to
+import_collections: This is the core record that Logs and Meta ("revisions"
+for now, TBD) tie to
 
 ##### Routes: 
 - routes (columns: path, controller - both of which are formatted)
@@ -47,7 +61,10 @@ The importer also kicks off the analysis at the end.  See ANALYSIS.
 
 
 #### ANALYSIS
-Analysis happens automatically after a file import. Each import generates a single Analysis record per log file (usually one per application). An analysis record stores (see model/analysis, lib/analyzers/calculator):
+Analysis happens automatically after a file import containing a log
+file (test or production). Each import generates a single Analysis
+record per log file & application. An analysis record stores
+(see model/analysis, lib/analyzers/calculator):
 - associated import collection id
 - application (hr suite, applicant portal, employee portal, defined in config.yml)
 - tested controllers percentage
@@ -67,9 +84,14 @@ we can also pull:
 - untested used paths
 - untested used controllers
 
+We only work with valid Analysis records. See scoping section.
+
+
 #### VIEW
 TBD.
-Right now it is the ugliest, slightly misaligned graph that allows hovering over nodes in the crudest of ways.  We ONLY show the percentage covered, and may not even filter it correctly by analysis type right now.
+Right now it is the ugliest, slightly misaligned graph that allows
+hovering over nodes in the crudest of ways.  We ONLY show the percentage
+covered, and may not even filter it correctly by analysis type right now.
 
 
 #### RAKE tools (examples):
@@ -80,7 +102,6 @@ Right now it is the ugliest, slightly misaligned graph that allows hovering over
 
 #### TODO:
 - TESTS!!!! we need this around each of our specific requirements (sorry)
-- View - it would be nice to have a graph per analysis type to start, basically a toggle. The core graph can be shared (maybe a partial) and the data can be pulled in based on the toggle selection
+- ignore: how to tag files as ignored
 - meta file - what do we want to expect in here
 - general cleanup/consolidation of lib/services
-- anything we are doing outside the app

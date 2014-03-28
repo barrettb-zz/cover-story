@@ -4,7 +4,7 @@ require 'gchart'
 module DashboardHelper
 
   def percentage_data(application, calculation)
-    array = Analysis.where(application: application).pluck(
+    array = Analysis.valid.where(application: application).pluck(
       :created_at,
       calculation.to_sym
     ).map { |d, p|

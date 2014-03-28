@@ -4,9 +4,8 @@ class ImportCollection < ActiveRecord::Base
   has_many :log_sources
   has_many :analyses
 
-  def self.valid
-    self.where(ignore: [false, nil])
-  end
+  scope :valid, -> { where ignore: [false, nil] }
+  default_scope  { valid }
 
   def self.latest_valid
     # TODO logger

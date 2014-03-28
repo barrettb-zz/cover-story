@@ -1,3 +1,6 @@
+# Be sure to clear anything with .unscoped since we auto scope
+# in some parts of the application
+
 class DataClearer
 
   class << self
@@ -35,27 +38,27 @@ class DataClearer
     end
 
     def delete_routes_data
-      Route.delete_all
-      RouteHistory.delete_all
+      Route.unscoped.delete_all
+      RouteHistory.unscoped.delete_all
       puts "Cleared all routes data (coldly deleted)"
     end
 
     def delete_analyses_data
-      Analysis.delete_all
+      Analysis.unscoped.delete_all
       puts "Cleared all analyses data (cruely deleted)"
     end
 
     def delete_import_collection_data
-      ImportCollection.delete_all
-      Revision.delete_all
+      ImportCollection.unscoped.delete_all
+      Revision.unscoped.delete_all
       puts "Cleared all import collection/revision data"
     end
 
     def delete_analyzed_routes_data
-      TestedPath.delete_all
-      ProductionPath.delete_all
-      TestedController.delete_all
-      ProductionController.delete_all
+      TestedPath.unscoped.delete_all
+      ProductionPath.unscoped.delete_all
+      TestedController.unscoped.delete_all
+      ProductionController.unscoped.delete_all
       puts "Cleared all analyzed route data (hope you didn't need this)"
     end
 
