@@ -1,10 +1,26 @@
-# Read about fixtures at
-# http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
-  routes_import: 
-  log_source: 
+  import_collection_id: 1
+  application: hr_suite
+  tested_controllers_percentage: 99
+  tested_paths_percentage: 100
+  created_at: "2014-03-21 00:12:31"
 
 two:
-  routes_import: 
-  log_source: 
+  import_collection_id: 1
+  application: hr_suite
+  tested_controllers_percentage: 49
+  tested_paths_percentage: '50'
+  created_at: "2014-03-22 00:12:31"
+
+three:
+  import_collection_id: 1
+  application: hr_suite
+  tested_controllers_percentage: 49
+  created_at: "2014-03-23 00:12:31"
+
+four:
+  import_collection_id: 1
+  application: applicant_portal
+  tested_controllers_percentage: 49
+  tested_paths_percentage: '50'
+  created_at: "2014-03-24 00:12:31"

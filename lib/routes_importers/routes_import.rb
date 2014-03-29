@@ -1,6 +1,8 @@
 # TODO I don't like how with fetch the files are treated individually,
 #      but the rest of the methods deal with the collection of files.
 
+require_relative '../importers/accepted_files'
+
 class RoutesImport
   include RoutesFileLines
   include AcceptedFiles

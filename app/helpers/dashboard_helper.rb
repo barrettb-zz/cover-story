@@ -23,7 +23,7 @@ module DashboardHelper
       calculation.match(/controller/) ||
       calculation.match(/path/)
     ).to_s
-    raise "no supported content found. Expected controller, path or used" if c.empty?
+    raise "no supported content found. Expected controller, path" if c.empty?
     c
   end
 
