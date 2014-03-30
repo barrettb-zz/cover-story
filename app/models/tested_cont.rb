@@ -1,4 +1,4 @@
-class TestedController < ActiveRecord::Base
+class TestedCont < ActiveRecord::Base
   belongs_to :analysis
   validates_presence_of :analysis_id
 

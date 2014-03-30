@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321001557) do
+ActiveRecord::Schema.define(version: 20140330042850) do
 
   create_table "analyses", force: true do |t|
     t.datetime "created_at"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20140321001557) do
   add_index "processing_lines", ["request_id"], name: "index_processing_lines_on_request_id", using: :btree
   add_index "processing_lines", ["source_id"], name: "index_processing_lines_on_source_id", using: :btree
 
-  create_table "production_controllers", force: true do |t|
+  create_table "production_conts", force: true do |t|
     t.integer  "analysis_id"
     t.string   "controller"
     t.integer  "count"
@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 20140321001557) do
   add_index "started_lines", ["request_id"], name: "index_started_lines_on_request_id", using: :btree
   add_index "started_lines", ["source_id"], name: "index_started_lines_on_source_id", using: :btree
 
-  create_table "tested_controllers", force: true do |t|
+  create_table "tested_conts", force: true do |t|
     t.integer  "analysis_id"
     t.string   "controller"
     t.integer  "count"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20140321001557) do
     t.datetime "updated_at"
   end
 
-  add_index "tested_controllers", ["analysis_id"], name: "index_tested_controllers_on_analysis_id", using: :btree
+  add_index "tested_conts", ["analysis_id"], name: "index_tested_conts_on_analysis_id", using: :btree
 
   create_table "tested_paths", force: true do |t|
     t.integer  "analysis_id"

@@ -17,7 +17,7 @@ module Calculator
     when :snapshot
       used = latest_production_controllers
     when :all_time
-      used = ProductionController.all_time.map &:controller
+      used = ProductionCont.all_time.map &:controller
     end
     routes = Route.where(application: self.application).active.controllers
     unique_percentage(used, routes)
@@ -51,7 +51,7 @@ module Calculator
     when :snapshot
       used = latest_production_controllers
     when :all_time
-      used = ProductionController.all_time.map &:controller
+      used = ProductionCont.all_time.map &:controller
     end
     tested = latest_tested_controllers
     used_tested = (used & tested)
@@ -93,7 +93,7 @@ private
 
   def latest_tested_controllers
     a = Analysis.active.application(self.application).with_tested_controllers.last
-    a.tested_controllers.pluck "controller"
+    a.tested_conts.pluck "controller"
   end
 
   def latest_tested_paths
@@ -103,7 +103,7 @@ private
 
   def latest_production_controllers
     a = Analysis.active.application(self.application).with_production_controllers.last
-    a.production_controllers.pluck "controller"
+    a.production_conts.pluck "controller"
   end
 
   def latest_production_paths

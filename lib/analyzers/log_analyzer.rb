@@ -31,12 +31,12 @@ class LogAnalyzer
       # generate test log analysis content
       if l.test?
         a.tested_paths.create_paths(log_paths)
-        a.tested_controllers.create_controllers(log_controllers)
+        a.tested_conts.create_controllers(log_controllers)
 
       # generate production log analysis content
       elsif l.production?
         a.production_paths.create_paths(log_paths)
-        a.production_controllers.create_controllers(log_controllers)
+        a.production_conts.create_controllers(log_controllers)
       else 
         raise "Unsupported environment: #{l.env}"
       end

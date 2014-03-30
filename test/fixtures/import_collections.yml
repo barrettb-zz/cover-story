@@ -1,6 +1,9 @@
 valid:
   id: 1
 
+valid_two:
+  id: 2
+
 invalid:
   id: 23
   ignore: 1
