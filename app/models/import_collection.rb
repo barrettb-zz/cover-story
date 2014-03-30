@@ -7,9 +7,4 @@ class ImportCollection < ActiveRecord::Base
   scope :active, -> { where ignore: [false, nil] }
   default_scope  { active }
 
-  def self.latest_active
-    # TODO logger
-    raise "No active imports." unless self.active.last
-    self.active.last
-  end
 end
