@@ -7,7 +7,7 @@ describe DashboardHelper do
     let(:p) { percentage_data('hr_suite', 'tested_paths_percentage') }
 
     it 'should get data' do
-      p.find_index(['22 Mar 14', 50.0]).wont_be_nil
+      p.find_index(['21 Mar 14', 100.0]).wont_be_nil
     end
 
     it 'should include headers' do

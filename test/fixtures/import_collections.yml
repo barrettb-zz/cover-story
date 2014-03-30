@@ -1,2 +1,6 @@
-one:
+valid:
   id: 1
+
+invalid:
+  id: 23
+  ignore: 1
