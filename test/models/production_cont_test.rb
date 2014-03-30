@@ -1,5 +1,3 @@
-#TODO paths as well, and is the controller in the name botching things?
-
 require 'test_helper'
 
 describe ProductionCont do
