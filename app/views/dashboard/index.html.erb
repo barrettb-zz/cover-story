@@ -32,7 +32,7 @@
 
 		<% unless params[:application].to_s.empty? || params[:calculation].to_s.empty? %>
 
-			<% raise 'There are no Analysis records' unless Analysis.valid.any? %>
+			<% raise 'There are no Analysis records' unless Analysis.active.any? %>
 			<% @dataset = percentage_data(params[:application], params[:calculation]) %>
 			<% @title = "#{params[:application].titleize} - #{params[:calculation].titleize}" %>
 			<%= render partial: 'main_graph', locals: {

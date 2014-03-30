@@ -92,22 +92,22 @@ private
   end
 
   def latest_tested_controllers
-    a = Analysis.valid.application(self.application).with_tested_controllers.last
+    a = Analysis.active.application(self.application).with_tested_controllers.last
     a.tested_controllers.pluck "controller"
   end
 
   def latest_tested_paths
-    a = Analysis.valid.application(self.application).with_tested_paths.last
+    a = Analysis.active.application(self.application).with_tested_paths.last
     a.tested_paths.pluck "path"
   end
 
   def latest_production_controllers
-    a = Analysis.valid.application(self.application).with_production_controllers.last
+    a = Analysis.active.application(self.application).with_production_controllers.last
     a.production_controllers.pluck "controller"
   end
 
   def latest_production_paths
-    a = Analysis.valid.application(self.application).with_production_paths.last
+    a = Analysis.active.application(self.application).with_production_paths.last
     a.production_paths.pluck "path"
   end
 end

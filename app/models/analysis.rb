@@ -12,8 +12,8 @@ class Analysis < ActiveRecord::Base
   scope :with_production_controllers, ->  { where(id: ProductionController.pluck("analysis_id").uniq) }
   scope :with_production_paths, ->        { where(id: ProductionPath.pluck("analysis_id").uniq) }
   scope :application, -> (app)            { where application: app }
-  scope :valid, ->                        { where import_collection_id: ImportCollection.valid.pluck("id") }
-  default_scope                           { valid }
+  scope :active, ->                       { where import_collection_id: ImportCollection.active.pluck("id") }
+  default_scope                           { active }
 
 # TODO this is iffy
   def self.calculations
@@ -24,10 +24,10 @@ class Analysis < ActiveRecord::Base
   end
 
   def self.has_test_data?(application)
-    ( valid.application(application).map &:tested_paths ).flatten.any?
+    ( active.application(application).map &:tested_paths ).flatten.any?
   end
 
   def self.has_production_data?(application)
-    ( valid.application(application).map &:production_paths ).flatten.any?
+    ( active.application(application).map &:production_paths ).flatten.any?
   end
 end

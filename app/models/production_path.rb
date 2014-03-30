@@ -12,7 +12,7 @@ class ProductionPath < ActiveRecord::Base
   end
 
   def self.all_time
-    analyses_ids = Analysis.valid.map &:id
+    analyses_ids = Analysis.active.map &:id
     self.find_all_by_analysis_id(analyses_ids)
   end
 end

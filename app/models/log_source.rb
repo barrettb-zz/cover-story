@@ -23,7 +23,7 @@ class LogSource < ActiveRecord::Base
     log_source.update_attributes(file_type: "rails", env: md[:env])
   end
 
-  def self.valid
+  def self.active
     self.where(ignore: [false, nil])
   end
 

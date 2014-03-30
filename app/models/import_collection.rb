@@ -4,12 +4,12 @@ class ImportCollection < ActiveRecord::Base
   has_many :log_sources
   has_many :analyses
 
-  scope :valid, -> { where ignore: [false, nil] }
-  default_scope  { valid }
+  scope :active, -> { where ignore: [false, nil] }
+  default_scope  { active }
 
-  def self.latest_valid
+  def self.latest_active
     # TODO logger
-    raise "No valid imports." unless self.valid.last
-    self.valid.last
+    raise "No active imports." unless self.active.last
+    self.active.last
   end
 end
