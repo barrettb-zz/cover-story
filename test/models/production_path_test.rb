@@ -25,8 +25,8 @@ describe ProductionPath do
   it 'must allow for bulk path creation' do
     t = Time.now.to_i
     a = Analysis.find(1)
-    a.production_paths.create_paths(["a#{t}/n/space", "b#{}{t}/n/space"])
+    a.production_paths.create_paths(["a#{t}/n/space", "b#{t}/n/space"])
     ProductionPath.where(path: "a#{t}/n/space").any?.must_equal true
-    ProductionPath.where(path: "b#{}{t}/n/space").any?.must_equal true
+    ProductionPath.where(path: "b#{t}/n/space").any?.must_equal true
   end
 end
