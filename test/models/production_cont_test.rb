@@ -23,10 +23,14 @@ describe ProductionCont do
   end
 
   it 'must allow for bulk controller creation' do
-    t = Time.now.to_i
     a = Analysis.find(1)
-    a.production_conts.create_controllers(["A#{t}Controller", "B#{t}Controller"])
-    ProductionCont.where(controller: "A#{t}Controller").any?.must_equal true
-    ProductionCont.where(controller: "B#{t}Controller").any?.must_equal true
+    a.production_conts.create_controllers(
+      ["AController", "BController", "BController"])
+    ac = a.production_conts.where(analysis_id: 1, controller: 'AController')
+    bc = a.production_conts.where(analysis_id: 1, controller: 'BController')
+    ac.count.must_equal 1 # only one record no matter what
+    ac.first.count.must_equal 1 # one instance
+    bc.count.must_equal 1 # only one record no matter what
+    bc.first.count.must_equal 2 # two instances
   end
 end

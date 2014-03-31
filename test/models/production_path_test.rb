@@ -23,10 +23,14 @@ describe ProductionPath do
   end
 
   it 'must allow for bulk path creation' do
-    t = Time.now.to_i
     a = Analysis.find(1)
-    a.production_paths.create_paths(["a#{t}/n/space", "b#{t}/n/space"])
-    ProductionPath.where(path: "a#{t}/n/space").any?.must_equal true
-    ProductionPath.where(path: "b#{t}/n/space").any?.must_equal true
+    a.production_paths.create_paths(
+      ["path/to/a", "path/to/b", "path/to/b"])
+    ap = a.production_paths.where(analysis_id: 1, path: "path/to/a")
+    bp = a.production_paths.where(analysis_id: 1, path: "path/to/b")
+    ap.count.must_equal 1 # only one record no matter what
+    ap.first.count.must_equal 1 # one instance
+    bp.count.must_equal 1 # only one record no matter what
+    bp.first.count.must_equal 2 # two instances
   end
 end
