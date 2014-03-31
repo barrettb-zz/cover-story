@@ -5,6 +5,9 @@ class Route < ActiveRecord::Base
   has_many :route_histories
   alias_method :histories, :route_histories
 
+  scope :inactive, -> { where(inactive: true) }
+  scope :active, ->   { where(inactive: [false, nil]) }
+
   def active?
     !self.inactive?
   end
@@ -59,14 +62,6 @@ class Route < ActiveRecord::Base
 
   def application
     Formatter.application_from_filename(self.filename)
-  end
-
-  def self.inactive
-    self.where(inactive: true)
-  end
-
-  def self.active
-    self.where(inactive: [false, nil])
   end
 
   def self.paths

@@ -12,7 +12,7 @@ describe ProductionPath do
   it 'must scope for all time' do
     c = ProductionPath.all_time
     c.pluck(:path).must_include 'postings/in/space', 'pools/in/space'
-    c.pluck(:path).wont_include 'inactive/in/space'
+    c.pluck(:path).wont_include 'inactives/in/space'
     c.pluck(:analysis_id).must_include 1, 2
     c.pluck(:analysis_id).wont_include 23
   end

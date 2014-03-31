@@ -11,8 +11,8 @@ describe ProductionCont do
 
   it 'must scope for all time' do
     c = ProductionCont.all_time
-    c.pluck(:controller).must_include 'PostingController', 'PoolController'
-    c.pluck(:controller).wont_include 'InactiveController'
+    c.pluck(:controller).must_include 'PostingsController', 'PoolsController'
+    c.pluck(:controller).wont_include 'InactivesController'
     c.pluck(:analysis_id).must_include 1, 2
     c.pluck(:analysis_id).wont_include 23
   end
