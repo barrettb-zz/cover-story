@@ -1,5 +1,4 @@
 class ImportCollection < ActiveRecord::Base
-  has_one :revision
   has_many :routes
   has_many :log_sources
   has_many :analyses

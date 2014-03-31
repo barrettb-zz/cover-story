@@ -50,8 +50,7 @@ class DataClearer
 
     def delete_import_collection_data
       ImportCollection.unscoped.delete_all
-      Revision.unscoped.delete_all
-      puts "Cleared all import collection/revision data"
+      puts "Cleared all import collection data"
     end
 
     def delete_analyzed_routes_data

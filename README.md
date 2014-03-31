@@ -21,10 +21,10 @@ be ignored, it will behave as if deleted unless you apply unscoped
 #### IMPORT:
 We will rely entirely on file drop for import.  
 
-For the file drop to work, the daemon needs to be running.  See: 
+For the file drop to work, the daemon needs to be running.  See:
 - lib/daemons/file_import_watcher.rb.  
 
-You can run it with: 
+You can run it with:
 - RAILS_ENV=development ruby lib/daemons/file_import_watcher.rb
 
 The file drop uses ImportService (app/services/import_service.rb).
@@ -43,10 +43,9 @@ and in perpetual progress.
 Upon import, the following tables get updated, important columns noted:
 
 ##### Import Collection:
-import_collections: This is the core record that Logs and Meta ("revisions"
-for now, TBD) tie to
+import_collections: This is the core record that Logs and Meta tie to
 
-##### Routes: 
+##### Routes:
 - routes (columns: path, controller - both of which are formatted)
 - route_histories (activated, inactivated)
 
@@ -56,8 +55,8 @@ for now, TBD) tie to
 - processing lines aka LogProcessingLine (controller)
 
 ##### Meta:
-TBD, but there is a revisions table in place.
-The importer also kicks off the analysis at the end.  See ANALYSIS.
+TBD,
+but right now anything this could populate is budled within ImportCollections
 
 
 #### ANALYSIS
