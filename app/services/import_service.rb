@@ -18,14 +18,20 @@ class ImportService < SimpleDelegator
   end
 
   def import
+    #  log
     self.results << "*#{Time.now} - importing from: #{file_dirnames(@file_names).uniq}"
     logger.info "*importing from: #{file_dirnames(@file_names).uniq}"
+
+    # unbundle
     self.unbundle
+
+    # import prep
     ensure_are_files_are_accepted_for_import(@file_names)
     create_import_collection_record
+
+    # routes
     self.import_routes_files
     self.import_log_files
-    self.import_meta_files
     self.analyze
     self.teardown
   rescue StandardError => e
@@ -77,17 +83,6 @@ class ImportService < SimpleDelegator
       ls.teardown
 
       info = "+logs: #{file_basenames log_files}"
-      self.results << info
-      logger.info info
-    end
-  end
-
-  def import_meta_files
-    meta_files = meta_files_from_group(@file_names)
-    if meta_files.any?
-      puts "..importing meta files: #{file_basenames meta_files}"
-      # TODO
-      info = "+meta: #{file_basenames meta_files}"
       self.results << info
       logger.info info
     end
