@@ -22,6 +22,7 @@ class Formatter
     end
 
     def format_route_path(path)
+      return if path.nil?
       path.gsub(/\/:(.*?)_id/, "/:id").strip
     end
 

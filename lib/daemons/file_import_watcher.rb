@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# to launch: RAILS_ENV=env lib/daemons/file_import_watcher.rb
+
 # You might want to change this
 ENV["RAILS_ENV"] ||= "production"
 
@@ -10,7 +12,7 @@ Dir.chdir(root)
 require File.join(root, "config", "environment")
 
 $running = true
-Signal.trap("TERM") do 
+Signal.trap("TERM") do
   $running = false
 end
 
@@ -29,8 +31,8 @@ while($running) do
     results_output = []
 
     if added.any?
-      is = ImportService.new(added)
-      is.import
+      is = ImportService.new(file_names: added, delete_files: true)
+      is.process
       results_output << is.results
     end
 

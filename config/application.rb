@@ -24,6 +24,7 @@ module CoverStory
     #config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths << "#{Rails.root}/app/services"
     config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/lib/utility"
     config.autoload_paths << "#{Rails.root}/importers"
     config.autoload_paths << "#{Rails.root}/lib/log_fetchers"
     config.autoload_paths << "#{Rails.root}/lib/log_parser"

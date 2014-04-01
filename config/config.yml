@@ -3,6 +3,9 @@ defaults: &defaults
   :tmp_dir: "/tmp"
   :analyzer_filetype_path: "lib/log_parser/request_log_analyzer/rails_pa.rb"
   :applications: 'hr_suite, applicant_portal, employee_portal'
+  :bundle:
+    :required_file_types: 'log, routes, meta'
+    :dir: '/tmp/unbundled_files/'
   :log_config:
     :log_file_format: '(?<ci_job_num>[\d]*)-*(?<ci_job>[\w\ ]*)-*(?<env>development|production|test).log'
     :environments: 'production, test, development'

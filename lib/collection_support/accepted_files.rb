@@ -103,11 +103,4 @@ module AcceptedFiles
   def meta_files_from_group(file_names)
     file_names.select { |a| a.match(meta_file_matcher) }
   end
-
-  def delete_all_files_from_unbundled_directory
-    Dir.entries(bundle_unzip_dir).each do |f| 
-      fn = File.join(bundle_unzip_dir, f)
-      File.delete(fn) if !File.directory?(fn)
-    end
-  end
 end
