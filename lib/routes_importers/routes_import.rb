@@ -1,16 +1,31 @@
-# TODO I don't like how with fetch the files are treated individually,
-#      but the rest of the methods deal with the collection of files.
-
-require_relative '../importers/accepted_files'
-
 class RoutesImport
   include RoutesFileLines
   include AcceptedFiles
 
   def setup(params)
     @config = APP_CONFIG[:routes_config]
-    @file_list = params[:file_list]
+    @file_list = routes_files_from_group(params[:file_list])
+    puts "..importing routes: #{file_basenames @file_list}"
     true
+  end
+
+  def import
+    return unless @file_list.any?
+
+    @file_list.each do |p|
+      import_status = false
+      @file_path = p
+      self.fetch
+
+      import_status = self.parse
+      raise "Routes import failed." unless import_status
+    end
+
+    self.teardown
+
+    info = "+routes: #{file_basenames(@file_list)}"
+    logger.info info
+    info
   end
 
   def fetch
@@ -46,20 +61,11 @@ class RoutesImport
     true
   end
 
-  def import
-    @file_list.each do |path|
-      @file_path = path
-      self.fetch
-
-      @import_status = self.parse
-      raise "Routes import failed." unless @import_status
-    end
-    return @import_status
-  end
-
   def teardown
     @file_list.each do |file|
       File.delete file
     end
+    # ensure at least some route files are present so things work:
+    raise "!no active routes. Import some" unless Route.active.any?
   end
 end

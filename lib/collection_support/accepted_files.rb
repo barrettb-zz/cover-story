@@ -103,4 +103,12 @@ module AcceptedFiles
   def meta_files_from_group(file_names)
     file_names.select { |a| a.match(meta_file_matcher) }
   end
+
+  def file_basenames(file_names)
+    file_names.map { |f| File.basename(f)}
+  end
+
+  def file_dirnames(file_names)
+    file_names.map { |f| File.dirname(f).gsub(Rails.root.to_s, '')}
+  end
 end

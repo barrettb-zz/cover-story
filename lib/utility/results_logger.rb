@@ -1,15 +1,9 @@
 require 'logger'
 
 module ResultsLogger
-  def self.included(base)
-    base.extend self
-  end
-
   def logger
-    @logger ||= begin
-      name = 'results'
-      Logger.new(File.join(Rails.root, 'log', "#{name}.#{Rails.env}.log"))
-    end
+    name = 'results'
+    Logger.new(File.join(Rails.root, 'log', "#{name}.#{Rails.env}.log"))
   end
 
   def output_and_log_error(message, e)
