@@ -33,6 +33,7 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'minitest-colorize'
   gem 'mocha', :require => false
+  gem 'm', '~> 1.3.1'
 end
 
 group :development, :test do
