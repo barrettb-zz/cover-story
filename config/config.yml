@@ -12,6 +12,7 @@ defaults: &defaults
     :routes_file_matcher: 'routes'
     :log_file_matcher: 'log'
     :meta_file_matcher: 'meta'
+    :type_for_file_drop: 'rails'
   :routes_config:
     :type: "rails"
     :routes_path_prefix: "/hr"

@@ -24,7 +24,7 @@ class LogAnalyzer
 
       # create analysis record for log
       a = Analysis.find_or_create_by_import_collection_id_and_application(
-        @import.id, 
+        @import.id,
         l.application
       )
 
@@ -37,7 +37,7 @@ class LogAnalyzer
       elsif l.production?
         a.production_paths.create_paths(log_paths)
         a.production_conts.create_controllers(log_controllers)
-      else 
+      else
         raise "Unsupported environment: #{l.env}"
       end
 

@@ -6,6 +6,7 @@ class Analysis < ActiveRecord::Base
   has_many    :production_conts
   has_many    :tested_paths
   has_many    :tested_conts
+  alias_method :tested_controllers, :tested_conts
 
   scope :with_tested_controllers, ->      { where(id: TestedCont.pluck("analysis_id").uniq) }
   scope :with_tested_paths, ->            { where(id: TestedPath.pluck("analysis_id").uniq) }

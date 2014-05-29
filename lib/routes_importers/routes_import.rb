@@ -4,32 +4,30 @@ class RoutesImport
 
   def setup(params)
     @config = APP_CONFIG[:routes_config]
-    @file_list = routes_files_from_group(params[:file_list])
+    @file_list = FileGate.filter(:routes, params[:file_list])
     puts "..importing routes: #{file_basenames @file_list}"
     true
   end
 
   def import
-    return unless @file_list.any?
-
+    return false unless @file_list.any?
     @file_list.each do |p|
       import_status = false
       @file_path = p
       self.fetch
-
       import_status = self.parse
       raise "Routes import failed." unless import_status
     end
 
     self.teardown
 
-    info = "+routes: #{file_basenames(@file_list)}"
-    logger.info info
-    info
+    message = "+routes: #{file_basenames(@file_list)}"
+    logger.info message
+    {message: message}
   end
 
   def fetch
-    ensure_file_includes_application_in_name File.basename(@file_path)
+    FileGate.ensure_application_in_name File.basename(@file_path)
     @tmp_routes_file = File.read(@file_path)
     true
   end

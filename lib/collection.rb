@@ -14,53 +14,37 @@ class Collection
   def process
     self.results << "*#{Time.now} - importing from: #{file_dirnames(@file_names).uniq}"
     logger.info "*importing from: #{file_dirnames(@file_names).uniq}"
+    unbundled_files = Unbundler.run(@file_names)
+    if unbundled_files
+      @file_names = unbundled_files[:file_names]
+      bundle_file = unbundled_files[:bundle_file]
+      self.results << unbundled_files[:results_message]
+    end
 
-    self.unbundle
+    FileGate.ensure_all_accepted(@file_names)
+    ImportCollection.create(bundle_file_name: bundle_file)
 
-    ensure_are_files_are_accepted_for_import(@file_names)
-    self.create_collection_record
+    routes_import = RoutesImportService.new(file_list: @file_names).import
+    if routes_import
+      self.results << routes_import[:message]
+    end
 
-    self.results << RoutesImportService.new(file_list: @file_names).import
-    self.import_log_files
+    log_import = LogService.new(file_list: @file_names).import
+    if log_import
+      self.results << log_import[:message]
+    end
+
     self.analyze
     self.teardown
-
   rescue StandardError => e
     message = "!error in importing files. See log. #{file_basenames @file_names}"
     output_and_log_error(message, e)
     self.results = "\n!something went wrong; likely nothing processed. See log\n\n"
   end
 
-  def create_collection_record
-    ic = ImportCollection.create
-    @bundle_files.any? && ic.update_attributes(
-      bundle_file_name: File.basename(@bundle_files.last)
-    )
-    @import_collection_id = ic.id
-  end
-
-  def import_log_files
-    log_files = log_files_from_group(@file_names)
-    if log_files.any?
-      puts "..importing logs (have patience): #{file_basenames log_files}"
-      log_files_params = { }
-      log_files_params[:file_list] = log_files
-      # TODO seems like this should be defined elsewhere?
-      #      how do we process other files at this point?
-      log_files_params[:type] = "local_rails"
-      ls = LogService.new(log_files_params)
-      ls.fetch
-      f_p_status = ls.parse
-      ls.teardown
-
-      info = "+logs: #{file_basenames log_files}"
-      self.results << info
-      logger.info info
-    end
-  end
-
+# TODO get this in a reasonable place, wrap it in the service
   def analyze
-    log_files = log_files_from_group(@file_names)
+    log_files = FileGate.filter(:log, @file_names)
 
     if log_files.any?
       analysis_config = APP_CONFIG[:analysis_config]
@@ -77,22 +61,9 @@ class Collection
     logger.info info
   end
 
-  def unbundle
-    @bundle_files = Unbundler.bundle_files(@file_names)
-    if @bundle_files.any?
-      puts "..unbundling: #{file_basenames @bundle_files}"
-      @file_names = Unbundler.run(@file_names) # set file names to bundle contents
-
-      info = "+unbundle: #{file_basenames @bundle_files}"
-      self.results << info
-      logger.info info
-    end
-  end
-
   def teardown
     if @delete_files
       @file_names.each { |f| File.delete(f) if File.exists?(f) } unless @file_names.nil?
-      @bundle_files.each { |f| File.delete(f) if File.exists?(f) } unless @bundle_files.nil?
     end
   end
 end

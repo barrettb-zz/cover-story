@@ -5,10 +5,24 @@ class Unbundler
   class << self
 
     def run(file_names)
+      bundle_files = self.bundle_files(file_names)
+      return false if bundle_files.empty?
       enforce_exclusively_one_bundle_file(file_names)
       bundle_file = bundle_files(file_names).last
+      puts "..unbundling: #{File.basename bundle_file}"
       enforce_required_file_types(bundle_file)
-      @file_names = unpack(bundle_file)
+      file_names = unpack(bundle_file)
+      message = "+unbundled: #{File.basename bundle_file}"
+      logger.info message
+      bundle_files.each do |f|
+        File.delete(f) if File.exists?(f) unless bundle_files.nil?
+      end
+      output = {
+        file_names: file_names,
+        message: message,
+        bundle_file: File.basename(bundle_file) # don't care about full path
+      }
+      output
     end
 
     def bundle_files(file_names)
