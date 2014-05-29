@@ -4,14 +4,19 @@ class Formatter
     def format_latest_log_paths
       latest_log_id = LogSource.last.id
       LogStartedLine.where(source_id: latest_log_id).each do |line|
-        formatted_path = line.path
-        # replace id with ":id"
-        formatted_path.gsub!(/\d+/, ":id")
-        # delete all query info, from "?" forward
-        formatted_path.gsub!(/\?.*/, "")
-        formatted_path.strip!
+        formatted_path = self.format_log_path(line.path)
         line.update_attributes(formatted_path: formatted_path)
       end
+    end
+
+    def format_log_path(path)
+      # replace id with ":id"
+      path.gsub!(/\d+/, ":id")
+      # delete all query info, from "?" forward
+      path.gsub!(/\?.*/, "")
+      path.strip!
+      path.chomp!('/')
+      path
     end
 
     def add_application_to_latest_log
@@ -23,7 +28,8 @@ class Formatter
 
     def format_route_path(path)
       return if path.nil?
-      path.gsub(/\/:(.*?)_id/, "/:id").strip
+      path = path.gsub(/\/:(.*?)_id/, "/:id").strip
+      path.chomp('/')
     end
 
     def format_route_controller(controller)

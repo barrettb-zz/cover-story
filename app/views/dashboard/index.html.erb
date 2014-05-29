@@ -1,4 +1,7 @@
-<p> You can import/drop files at: <b><%=APP_CONFIG[:file_drop_dir]%></b></p>
+<p>
+	1. Run file watcher: <i>RAILS_ENV=$env lib/daemons/file_import_watcher.rb</i><br>
+	2. Import/drop files at: <i><%=APP_CONFIG[:file_drop_dir]%></i>
+</p>
 
 <% unless Analysis.any? %>
 
