@@ -20,6 +20,12 @@ describe ImportCollection do
       ImportCollection.active.must_equal ImportCollection.all
       ImportCollection.active.wont_equal ImportCollection.unscoped
     end
+
+    it 'must scope for latest active' do
+      ImportCollection.create(id: 998)
+      ImportCollection.create(id: 999, ignore: true)
+      ImportCollection.latest_active.id.must_equal 998
+    end
   end
 
 end

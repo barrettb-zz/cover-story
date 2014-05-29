@@ -21,13 +21,13 @@ class Route < ActiveRecord::Base
         r.add_history(:active)
       end
       ids = routes.pluck("id").to_sentence
-      output_and_log_info("+activated route: #{self.path} (IDs: #{ids})")
+      log_info("+activated route: #{self.path} (IDs: #{ids})")
     else
       return if self.active? # never allow duplication
       update_attributes(inactive: nil)
       add_history(:active)
       id = self.id
-      output_and_log_info("+activated route: #{self.path} (ID: #{id})")
+      log_info("+activated route: #{self.path} (ID: #{id})")
     end
   end
 
@@ -40,13 +40,13 @@ class Route < ActiveRecord::Base
         r.add_history(:inactive)
       end
       ids = routes.pluck("id").to_sentence
-      output_and_log_info("+inactivated route: #{self.path} (IDs: #{ids})")
+      log_info("+inactivated route: #{self.path} (IDs: #{ids})")
     else
       return if self.inactive? # never allow duplication
       update_attributes(inactive: true)
       add_history(:inactive)
       id = self.id
-      output_and_log_info("-inactivated route: #{self.path} (ID: #{id})")
+      log_info("-inactivated route: #{self.path} (ID: #{id})")
     end
   end
 

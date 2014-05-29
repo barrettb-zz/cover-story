@@ -18,4 +18,9 @@ module ResultsLogger
     puts m
     logger.info m
   end
+
+  def log_info(message)
+    m = "#{message.gsub('\n', ' ').squeeze(' ')}"
+    logger.info m
+  end
 end
