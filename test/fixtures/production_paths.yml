@@ -1,0 +1,11 @@
+one:
+  analysis_id: 1
+  path: postings/in/space
+
+two:
+  analysis_id: 2
+  path: pools/in/space
+
+inactive_path:
+  analysis_id: 23
+  path: inactives/in/space

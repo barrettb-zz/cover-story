@@ -1,22 +1,15 @@
-# Read about fixtures at
-# http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+active:
+  id: 1
+  path: postings/in/space
+  controller: PostingsController
 
-one:
-  import_timestamp_id: 1
-  route_type: MyString
-  name: MyString
-  method: MyString
-  path: MyString
-  action_path: MyString
-  action: MyString
-  original_route_info: MyText
+active_2:
+  id: 2
+  path: pools/in/space
+  controller: PoolsController
 
-two:
-  import_timestamp_id: 1
-  route_type: MyString
-  name: MyString
-  method: MyString
-  path: MyString
-  action_path: MyString
-  action: MyString
-  original_route_info: MyText
+inactive:
+  id: 23
+  path: inactives/in/space
+  controller: InactivesController
+  inactive: 1

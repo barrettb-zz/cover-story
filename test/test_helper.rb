@@ -8,8 +8,14 @@ require "minitest/rails"
 require "minitest/rails/capybara"
 require "mocha/setup"
 # Uncomment for awesome colorful output
-# require "minitest/pride"
+require "minitest/pride"
 require 'minitest/colorize'
+
+class MiniTest::Spec
+  class << self
+    alias :context :describe
+  end
+end
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!

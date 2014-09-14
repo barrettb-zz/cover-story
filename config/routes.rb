@@ -58,8 +58,6 @@ CoverStory::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  resources :route_importer_definitions
-  resources :route_importers
   resources :requests
   post 'log_import', to: 'log_import#fetch_parse'
 end

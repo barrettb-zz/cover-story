@@ -24,9 +24,10 @@ module CoverStory
     #config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths << "#{Rails.root}/app/services"
     config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/lib/utility"
+    config.autoload_paths << "#{Rails.root}/importers"
     config.autoload_paths << "#{Rails.root}/lib/log_fetchers"
     config.autoload_paths << "#{Rails.root}/lib/log_parser"
-    config.autoload_paths << "#{Rails.root}/lib/log_processors"
     config.autoload_paths << "#{Rails.root}/lib/routes_importers"
     config.autoload_paths << "#{Rails.root}/lib/analyzers"
 
@@ -65,7 +66,7 @@ module CoverStory
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
+    # config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
     config.assets.enabled = true

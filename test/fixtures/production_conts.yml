@@ -1,0 +1,11 @@
+one_posting_controller:
+  analysis_id: 1
+  controller: PostingsController
+
+two_pool_controller:
+  analysis_id: 2
+  controller: PoolsController
+
+inactive_controller:
+  analysis_id: 23
+  controller: InactivesController

@@ -1,15 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.3'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'mysql2'
 gem 'splunk-sdk-ruby'
 gem "request-log-analyzer", :git => "git@github.com:mmorast/request-log-analyzer.git", :branch => "master"
 gem 'daemons-rails'
 gem 'listen', '~> 2.0'
+gem "d3-rails"
+gem 'rubyzip'
+gem 'googlecharts'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,6 +33,7 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'minitest-colorize'
   gem 'mocha', :require => false
+  gem 'm', '~> 1.3.1'
 end
 
 group :development, :test do

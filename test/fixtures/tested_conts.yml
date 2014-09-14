@@ -1,0 +1,3 @@
+one:
+  analysis_id: 1
+  controller: PostingsController

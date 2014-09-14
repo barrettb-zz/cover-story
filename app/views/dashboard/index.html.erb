@@ -1,31 +1,50 @@
-<h1>Route Coverage Dashboard</h1>
-
 <p>
-  Routes Not Covered by Tests - <%= @untested_routes[:percentage]%>
+	1. Run file watcher: <i>RAILS_ENV=$env lib/daemons/file_import_watcher.rb</i><br>
+	2. Import/drop files at: <i><%=APP_CONFIG[:file_drop_dir]%></i>
 </p>
 
-<div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <% @untested_routes[:routes].each do |route| %>
-    <li><%= route %></li>
-  <% end %>
-</div>
+<% unless Analysis.any? %>
 
-<p>
-  Active Routes Not Covered by Tests - <%= @untested_prod_routes[:percentage]%>
-</p>
+	<p>
+		...and STOP. There are no Analysis records.
+		If you try to generate fun, <b>the system will crash</b>,
+		so we are preventing any action until this is fixed.
+	</p>
 
-<div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <% @untested_prod_routes[:routes].each do |route| %>
-    <li><%= route %></li>
-  <% end %>
-</div>
+<% else %>
 
-<p>
-  Routes Not Used by Customers - <%= @unused_routes[:percentage]%>
-</p>
+	<%= form_tag("/", method: "get") do %>
 
-<div style="height:360px;width:720px;border:1px solid #ccc;font:12px/25px Georgia, Garamond, Serif;overflow:auto;white-space:nowrap;">
-  <% @unused_routes[:routes].each do |route| %>
-    <li><%= route %></li>
-  <% end %>
-</div>
+		<table>
+			<tr>
+				<td> Application </td>
+				<td> <%= select_tag :application,
+					options_for_select(@applications, params[:application]),
+					prompt: '...' %>
+				</td>
+			</tr>
+			<tr>
+				<td> Calculation </td>
+				<td> <%= select_tag :calculation,
+					options_for_select(@calculations, params[:calculation]),
+					prompt: '...' %> </td>
+			</tr>
+		</table>
+
+		<p> <%= submit_tag("Generate fun") %> </p>
+
+		<% unless params[:application].to_s.empty? || params[:calculation].to_s.empty? %>
+
+			<% raise 'There are no Analysis records' unless Analysis.active.any? %>
+			<% @dataset = percentage_data(params[:application], params[:calculation]) %>
+			<% @title = "#{params[:application].titleize} - #{params[:calculation].titleize}" %>
+			<%= render partial: 'main_graph', locals: {
+				dataset: @dataset, title: @title }  %>
+			<%= render partial: 'tested_list', locals: {
+				app: params[:application], calc: params[:calculation] } %>
+		  <%= render partial: 'untested_list', locals: {
+				app: params[:application], calc: params[:calculation] } %>
+
+	 <% end %>
+	<% end %>
+<% end %>
